@@ -1,0 +1,78 @@
+<main role="main" id="content" class="my-5">
+    <div class="container-fluid">
+      <h1>Nos Critères</h1>
+    </div>
+
+  
+    <div class="container-fluid">
+      <table id="news-table" class="table tablesorter mb-5">
+        <caption>
+          Nouveau Critère
+          <a href="../administration-edition-page" class="btn btn-sm btn-secondary ml-3">Ajouter critère</a>
+        </caption>
+        <thead class="cf">
+          <tr>
+            <th scope="col" class="header">ID</th>
+            <th scope="col" class="header">Barème</th>
+            <th scope="col" class="header">Libéllé</th>
+            <th scope="col" class="header">Evenement</th>
+            <th scope="col" class="header">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="align-middle">1</td>
+            <td class="align-middle">Eat 5 fruits and vegetables a day</td>
+            <td class="align-middle">Health</td>
+            <td class="align-middle">Health</td>
+            <td class="align-middle">
+              <a href="../administration-edition-page" class="btn btn-sm btn-primary">Edit</a>
+              <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#confirm-dialog">Delete</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="align-middle">9</td>
+            <td class="align-middle">Health</td>
+            <td class="align-middle">Health</td>
+            <td class="align-middle">Health</td>
+            <td class="align-middle">
+              <a href="../administration-edition-page" class="btn btn-sm btn-primary">Edit</a>
+              <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#confirm-dialog">Delete</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="align-middle">10</td>
+            <td class="align-middle">Chikungunya: protect yourself</td>
+            <td class="align-middle">Health</td>
+            <td class="align-middle">Health</td>
+            <td class="align-middle">
+              <a href="../administration-edition-page" class="btn btn-sm btn-primary">Edit</a>
+              <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#confirm-dialog">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- Modal -->
+      <div class="modal fade" id="confirm-dialog" role="dialog" aria-labelledby="myModalLabel" tabindex="-1">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h2 class="modal-title h4" id="myModalLabel">Confirm deletion</h2>
+              <!-- Boosted mod: using visually hidden text instead of aria-label -->
+              <button type="button" class="close" data-dismiss="modal">
+                <span class="sr-only">Close confirmation modal</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>If you delete this entry, all information will be permanently lost. Are you sure?</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- fin modal -->
+    </div>
+  </main>

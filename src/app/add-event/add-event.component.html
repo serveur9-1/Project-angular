@@ -1,0 +1,28 @@
+<main role="main" id="content" class="container-fluid my-5">
+  
+    <form class="row" action="#" id="PostAdminEditForm" method="post" accept-charset="utf-8">
+      <div class="col-12 col-lg-6 m-auto">
+        <div class="form-group required">
+          <label for="PostName" class="is-required">Nom</label>
+          <input name="data[Post][titre]" class="form-control" maxlength="255" type="text" id="PostName" required="required" aria-required="true">
+        </div>
+        <div class="form-group">
+            <label for="PostCategoryId">Type</label>
+            <select name="data[Post][category_id]" class="custom-select" id="PostCategoryId">
+              <option value="1">Groupe</option>
+              <option value="2">Individuel</option>
+            </select>
+        </div>
+        <div class="form-group required">
+            <label for="Date1" class="is-required">Date debut</label>
+            <input name="data[Post][Date1]" class="form-control" maxlength="255" type="date" id="Date1" required="required" aria-required="true">
+        </div>
+        <div class="form-group required">
+            <label for="Date2" class="is-required">Date fin</label>
+            <input name="data[Post][Date2]" class="form-control" maxlength="255" type="date" id="Date2" required="required" aria-required="true">
+        </div>
+       
+        <button type="button" class="btn btn-primary float-right">Créer Evenement</button>
+      </div>
+    </form>
+  </main><!--/.container-->

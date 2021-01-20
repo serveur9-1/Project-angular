@@ -7,6 +7,12 @@ import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { EvenementComponent } from './evenement/evenement.component';
+import { CandidatComponent } from './candidat/candidat.component';
+import { GroupeComponent } from './groupe/groupe.component';
+import { JuryComponent } from './jury/jury.component';
+import { CritereComponent } from './critere/critere.component';
+import { AddCandidatComponent } from './add-candidat/add-candidat.component';
+import { AddEventComponent } from './add-event/add-event.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +21,12 @@ import { EvenementComponent } from './evenement/evenement.component';
     HeaderComponent,
     FooterComponent,
     EvenementComponent,
+    CandidatComponent,
+    GroupeComponent,
+    JuryComponent,
+    CritereComponent,
+    AddCandidatComponent,
+    AddEventComponent,
   ],
   imports: [
     BrowserModule,
