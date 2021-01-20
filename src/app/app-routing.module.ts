@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AddCandidatComponent } from './add-candidat/add-candidat.component';
 import { AddEventComponent } from './add-event/add-event.component';
+import { AddGroupComponent } from './add-group/add-group.component';
 import { CandidatComponent } from './candidat/candidat.component';
 import { CritereComponent } from './critere/critere.component';
 import { EvenementComponent } from './evenement/evenement.component';
@@ -18,6 +19,8 @@ const routes: Routes = [
   { path: 'juries', component: JuryComponent },
   { path: 'addCandidat', component: AddCandidatComponent },
   { path: 'addEvent', component: AddEventComponent },
+  { path: 'addGroup', component: AddGroupComponent },
+
 
 ];
 

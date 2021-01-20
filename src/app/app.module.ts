@@ -13,6 +13,8 @@ import { JuryComponent } from './jury/jury.component';
 import { CritereComponent } from './critere/critere.component';
 import { AddCandidatComponent } from './add-candidat/add-candidat.component';
 import { AddEventComponent } from './add-event/add-event.component';
+import { AddGroupComponent } from './add-group/add-group.component';
+import { AddCritereComponent } from './add-critere/add-critere.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,8 @@ import { AddEventComponent } from './add-event/add-event.component';
     CritereComponent,
     AddCandidatComponent,
     AddEventComponent,
+    AddGroupComponent,
+    AddCritereComponent,
   ],
   imports: [
     BrowserModule,
