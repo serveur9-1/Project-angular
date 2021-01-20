@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StylesheetComponent } from './stylesheet.component';
+import { EvenementComponent } from './evenement.component';
 
-describe('StylesheetComponent', () => {
-  let component: StylesheetComponent;
-  let fixture: ComponentFixture<StylesheetComponent>;
+describe('EvenementComponent', () => {
+  let component: EvenementComponent;
+  let fixture: ComponentFixture<EvenementComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ StylesheetComponent ]
+      declarations: [ EvenementComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StylesheetComponent);
+    fixture = TestBed.createComponent(EvenementComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
