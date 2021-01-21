@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { ApiModule } from './api/api.module'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,6 +16,8 @@ import { AddCandidatComponent } from './add-candidat/add-candidat.component';
 import { AddEventComponent } from './add-event/add-event.component';
 import { AddGroupComponent } from './add-group/add-group.component';
 import { AddCritereComponent } from './add-critere/add-critere.component';
+import { AddJuryComponent } from './add-jury/add-jury.component';
+import { from } from 'rxjs';
 
 @NgModule({
   declarations: [
@@ -31,10 +34,13 @@ import { AddCritereComponent } from './add-critere/add-critere.component';
     AddEventComponent,
     AddGroupComponent,
     AddCritereComponent,
+    AddJuryComponent,
   ],
   imports: [
+    ApiModule.forRoot({rootUrl: 'http://127.0.0.1:8080/'}),
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]
