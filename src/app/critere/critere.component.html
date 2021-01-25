@@ -19,34 +19,15 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td class="align-middle">1</td>
-            <td class="align-middle">Eat 5 fruits and vegetables a day</td>
-            <td class="align-middle">Health</td>
-            <td class="align-middle">Health</td>
+          <tr *ngFor="let critere of allCriteres">
+            <td class="align-middle">{{critere.critereId}}</td>
+            <td class="align-middle">{{critere.critereBareme}}</td>
+            <td class="align-middle">{{critere.critereLibelle}}</td>
+            <td class="align-middle" *ngIf="critere.evenement">{{critere.evenement!.evenementNom}}</td>
             <td class="align-middle">
-              <a href="../administration-edition-page" class="btn btn-sm btn-primary">Edit</a>
-              <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#confirm-dialog">Delete</button>
-            </td>
-          </tr>
-          <tr>
-            <td class="align-middle">9</td>
-            <td class="align-middle">Health</td>
-            <td class="align-middle">Health</td>
-            <td class="align-middle">Health</td>
-            <td class="align-middle">
-              <a href="../administration-edition-page" class="btn btn-sm btn-primary">Edit</a>
-              <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#confirm-dialog">Delete</button>
-            </td>
-          </tr>
-          <tr>
-            <td class="align-middle">10</td>
-            <td class="align-middle">Chikungunya: protect yourself</td>
-            <td class="align-middle">Health</td>
-            <td class="align-middle">Health</td>
-            <td class="align-middle">
-              <a href="../administration-edition-page" class="btn btn-sm btn-primary">Edit</a>
-              <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#confirm-dialog">Delete</button>
+              <a href="#" class="btn btn-primary mt-3 float-left">Modifier</a>
+                      <button (click)="deleteCritere(critere.critereId)"
+                        class="btn btn-secondary mt-3 float-right">Supprimer</button>
             </td>
           </tr>
         </tbody>

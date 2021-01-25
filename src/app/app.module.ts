@@ -18,6 +18,7 @@ import { AddGroupComponent } from './add-group/add-group.component';
 import { AddCritereComponent } from './add-critere/add-critere.component';
 import { AddJuryComponent } from './add-jury/add-jury.component';
 import { from } from 'rxjs';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { from } from 'rxjs';
     ApiModule.forRoot({rootUrl: 'http://127.0.0.1:8080/'}),
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule
     
   ],
   providers: [],

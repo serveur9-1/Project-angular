@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Candidats } from '../api/models';
+import { CandidatControllerService } from '../api/services';
 
 @Component({
   selector: 'app-candidat',
@@ -6,10 +8,34 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./candidat.component.css']
 })
 export class CandidatComponent implements OnInit {
-
-  constructor() { }
+  allCandidats : Candidats[] = [];
+  constructor(private candidatsService : CandidatControllerService) { }
 
   ngOnInit(): void {
+    this.reloadData();
+    
+  }
+
+  reloadData() {
+    this.candidatsService.getAllCandidatsUsingGET().subscribe(
+      (res)=>{
+        this.allCandidats = res;
+        console.log(res)
+      },
+      (error) => {
+        console.error(error)
+      }
+    )
+  }
+
+  deleteCandidat(candidatId: any) {
+    this.candidatsService.deleteUsingDELETE(candidatId)
+      .subscribe(
+        data => {
+          console.log(data);
+          this.reloadData();
+        },
+        error => console.log(error));
   }
 
 }

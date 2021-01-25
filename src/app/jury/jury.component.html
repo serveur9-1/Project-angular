@@ -22,40 +22,16 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td class="align-middle">1</td>
-            <td class="align-middle">Eat 5 fruits and vegetables a day</td>
-            <td class="align-middle">Health</td>
-            <td class="align-middle">Health</td>
-            <td class="align-middle">Health</td>
-            <td class="align-middle">Health</td>
+          <tr *ngFor="let jury of allJuries">
+            <td class="align-middle">{{jury.juryId}}</td>
+            <td class="align-middle">{{jury.juryCode}}</td>
+            <td class="align-middle">{{jury.juryEmail}}</td>
+            <td class="align-middle">{{jury.juryNomComplet}}</td>
+            <td class="align-middle">{{jury.juryTelephone}}</td>
+            <td class="align-middle" *ngIf="jury.evenement">{{jury.evenement.evenementNom}}</td>
             <td class="align-middle">
-              <a href="../administration-edition-page" class="btn btn-sm btn-primary">Edit</a>
-              <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#confirm-dialog">Delete</button>
-            </td>
-          </tr>
-          <tr>
-            <td class="align-middle">1</td>
-            <td class="align-middle">Eat 5 fruits and vegetables a day</td>
-            <td class="align-middle">Health</td>
-            <td class="align-middle">Health</td>
-            <td class="align-middle">Health</td>
-            <td class="align-middle">Health</td>
-            <td class="align-middle">
-              <a href="../administration-edition-page" class="btn btn-sm btn-primary">Edit</a>
-              <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#confirm-dialog">Delete</button>
-            </td>
-          </tr>
-          <tr>
-            <td class="align-middle">1</td>
-            <td class="align-middle">Eat 5 fruits and vegetables a day</td>
-            <td class="align-middle">Health</td>
-            <td class="align-middle">Health</td>
-            <td class="align-middle">Health</td>
-            <td class="align-middle">Health</td>
-            <td class="align-middle">
-              <a href="../administration-edition-page" class="btn btn-sm btn-primary">Edit</a>
-              <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#confirm-dialog">Delete</button>
+              <a href="../administration-edition-page" class="btn btn-primary mr-2">Edit</a>
+              <button (click)="deleteJury(jury.juryId)" class="btn btn-secondary">Supprimer</button>
             </td>
           </tr>
         </tbody>
