@@ -26,9 +26,13 @@ export class DetailGroupeComponent implements OnInit {
 
   ngOnInit(): void {
     this.reloadData();
+    this.groupeCFormInit()
+  }
+
+  groupeCFormInit(){
     this.addCandGroupForm = this.fb.group({
       groupeCandidatId : [100000],
-      candidatId : ["", Validators.required],
+      candidatId : ["",Validators.required],
     })
   }
 
@@ -46,11 +50,14 @@ export class DetailGroupeComponent implements OnInit {
   }
 
   onSubmit(){
+
+    
+console.log(this.addCandGroupForm.value)
     if (!this.addCandGroupForm.valid) {
       this.toastr.error("Veuillez choisir un candidat");
     } else {
       console.log(this.addCandGroupForm)
-      this.groupeCandidatService.createOrUpdateGroupeCandidatUsingPOST(this.addCandGroupForm.value)
+      this.groupeCandidatService.createOrUpdateGroupeCandidatUsingPOST({...this.addCandGroupForm.value, candidat: {candidatId:this.addCandGroupForm.value.candidatId}, groupe: {groupeId:this.groupeId}})
       .subscribe(
         data => {
          
@@ -60,7 +67,7 @@ export class DetailGroupeComponent implements OnInit {
         },
         error => this.toastr.error(error.message)
         );
-    }
+    } 
     }
 
   allCandids(){

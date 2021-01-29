@@ -24,12 +24,12 @@
               </div>
           </div>
           <div class="tab-pane" id="devices">
-            <form id="search-users" name="searchUsers" (submit)="onSubmit()" [formGroup]="addCandGroupForm">
+            <form (submit)="onSubmit()" [formGroup]="addCandGroupForm">
                 <div class="row">
                   <div class="form-group col-12 col-lg-12">
                     <label class="is-required" for="location">Choisir un membre</label>
                     <select name="data[Post][category_id]"  formControlName="candidatId" class="custom-select" id="PostCategoryId">
-                        <option selected="true" disabled="disabled" value="">Choix du candidat</option>
+                        <option selected="true" disabled="disabled" value="">Choix d'évènement</option>
                         <option *ngFor="let candidat of allCandid" [value]="candidat.candidatId">{{candidat.candidatNom}} {{candidat.candidatPrenoms}}</option>
                       </select>
                   </div>
