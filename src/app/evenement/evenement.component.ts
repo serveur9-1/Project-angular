@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Evenement } from '../api/models';
-import { EvenementControllerService } from '../api/services';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { Evenement, IParticipantService } from '../api/models';
+import { EvenementControllerService } from '../api/services/evenement-controller.service';
 
 @Component({
   selector: 'app-evenement',
@@ -9,8 +11,9 @@ import { EvenementControllerService } from '../api/services';
 })
 export class EvenementComponent implements OnInit {
 
-  allEvents : Evenement[] = [];
-  constructor(private eventService: EvenementControllerService) { }
+  allEvents : IParticipantService[] = [];
+  evenementId!: number;
+  constructor(private eventService: EvenementControllerService,private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.reloadData();
@@ -30,14 +33,19 @@ export class EvenementComponent implements OnInit {
     )
   }
 
-  deleteEvent(evenementId: any) {
-    this.eventService.deleteUsingDELETE2(evenementId)
+  deleteEvenement(evenementId: number) {
+    this.evenementId = evenementId ; // **stored particular Id**
+  }
+  deleteOK() {
+    this.eventService.deleteUsingDELETE2(this.evenementId)
       .subscribe(
         data => {
+          this.toastr.success("Critère supprimé avec succès");
           console.log(data);
           this.reloadData();
         },
         error => console.log(error));
   }
+
 
 }

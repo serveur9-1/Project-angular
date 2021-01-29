@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Criteres } from '../api/models';
-import { CritereControllerService } from '../api/services';
+import { CritereControllerService } from '../api/services/critere-controller.service';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-critere',
@@ -10,7 +12,8 @@ import { CritereControllerService } from '../api/services';
 export class CritereComponent implements OnInit {
 
   allCriteres :Criteres[] = [];
-  constructor(private critereService : CritereControllerService) { }
+  critereId!: number;
+  constructor(private critereService : CritereControllerService,private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.reloadData();
@@ -29,14 +32,17 @@ export class CritereComponent implements OnInit {
       }
     )
   }
-
-  deleteCritere(critereId: any) {
-    this.critereService.deleteUsingDELETE1(critereId)
+  deleteCritere(critereId: number) {
+    this.critereId = critereId ; // **stored particular Id**
+  }
+  deleteOK() {
+    this.critereService.deleteUsingDELETE1(this.critereId)
       .subscribe(
         data => {
+          this.toastr.success("Critère supprimé avec succès");
           console.log(data);
           this.reloadData();
         },
-        error => console.log(error));
+        error => this.toastr.error("Critère supprimé avec succès"));
   }
 }

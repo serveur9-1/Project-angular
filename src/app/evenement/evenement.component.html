@@ -1,45 +1,71 @@
 <main role="main">
-    <div class="bg-light pt-5 pb-3">
-      <div class="container">
-        <div class="swiper-container">
-          <div class="swiper-wrapper">
-            <div>
-              <!-- Header title + link to see all -->
-              <div class="d-flex mb-3">
-                <h2 class="m-0">Liste des évènements</h2>
-                <a routerLink="/addEvent" class="btn btn-secondary ml-auto">Ajouter évènement</a>
-              </div>
-              <div class="row discovery-carousel-frame-row">
-                <div class="col-4 col-md-4 col-lg-4 mt-4" *ngFor="let events of allEvents" style="width: 536px !important;">
-                  <div class="card border">
-                    <img src="../assets/images/discovery.svg" alt="" class="card-img-top bg-yellow"  width="416" height="229" loading="lazy"/>
-                    <div class="card-body position-static">
-                      <h3 class="card-title mb-3">{{events.evenementNom}}</h3>
+  <div class="bg-light pt-5 pb-3">
+    <div class="container">
+      <div class="swiper-container">
+        <div class="swiper-wrapper">
+          <div>
+            <!-- Header title + link to see all -->
+            <div class="d-flex mb-3">
+              <h2 class="m-0">Liste des évènements</h2>
+              <a routerLink="/addEvent" class="btn btn-secondary ml-auto">Ajouter évènement</a>
+            </div>
+            <div class="row discovery-carousel-frame-row">
+              <div class="col-4 col-md-4 col-lg-4 mt-4" *ngFor="let evenement of allEvents"
+                style="width: 536px !important;">
+                <div class="card border mr-3"  style="width: 350px !important;">
+                  <img [src]="'data:image/jpeg;base64,' + evenement.evenement_photo" alt="" class="card-img-top bg-yellow" width="416"
+                    height="229" loading="lazy" />
+                  <div class="card-body position-static">
+                    <div class="card-text mb-1" ><span class="badge badge-info" style="float: right;">{{evenement.evenement_type}}</span></div>
+                    <h3 class="card-title mb-3">{{evenement.evenement_nom}}</h3>
 
-                      <h5 class="card-title col-md-6  mb-3 " style="float: left;">10 pers</h5>
-                      <h4 class="card-title col-md-6  mb-3" style="float: right">10 grps</h4>
-                      <div class="card-text mb-3" lang="zxx">
-                        {{events.evenementType}}<br>
-                        <div class="mt-3">
-                          <div class="col-md-6" style="float: left;">{{events.evenementDateDebut}} </div>
-                          <div class="col-md-6" style="float: right;">{{events.evenementDateFin}} </div>
-                        </div>
+                    <h4 class="card-title col-md-6  mb-3 " style="font-size: small;" *ngIf="evenement.evenement_type== 'Individuel' ; else groupe" >Nbre : {{evenement.participant}} Participants</h4>
+                    <ng-template #groupe>
+                      <h4 class="card-title col-md-6  mb-3"  style="font-size: small;">Nbre : {{evenement.participant}} Groupes</h4>
+                    </ng-template>
+                    <div class="card-text mb-3" lang="zxx">
+                      <div class="mt-3">
+                        <div class="col-md-6" style="float: left; font-size: small;">Début : {{evenement.evenement_date_debut}} </div>
+                        <div class="col-md-6" style="float: right; font-size: small;">Fin : {{evenement.evenement_date_fin}} </div>
                       </div>
-                      <div>
-                        <a href="#" class="btn btn-primary mt-3 float-left">Modifier</a>
-                        <button (click)="deleteEvent(events.evenementId)" class="btn btn-secondary mt-3 float-right">Supprimer</button>
-                      </div>
+                    </div>
+                    <div>
+                      <a [routerLink]="['/addEvent', evenement.evenement_id]" class="btn btn-primary mt-3 float-left">Modifier</a>
+                      <button *ngIf="evenement.evenement_id" (click)="deleteEvenement(evenement.evenement_id)" data-toggle="modal"
+                        data-target="#confirmDelete" class="btn btn-secondary mt-3 float-right">Supprimer</button>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-  
           </div>
+
         </div>
       </div>
     </div>
-  
-  </main>
-  
-  
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="confirmDelete" role="dialog" aria-labelledby="myModalLabel" tabindex="-1">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title h4" id="myModalLabel">Confirmation de suppression</h2>
+          <!-- Boosted mod: using visually hidden text instead of aria-label -->
+          <button type="button" class="close" data-dismiss="modal">
+            <span class="sr-only">Close confirmation modal</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Si vous supprimer ce évènement , cela sera définitif et vous perdrez toutes les données qui y vont avec. ètes-vous sûre de vouloir supprimer?
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Retour</button>
+          <button type="button" (click)="deleteOK()" class="btn btn-primary" data-dismiss="modal">Supprimer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- fin modal -->
+</main>

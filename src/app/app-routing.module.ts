@@ -1,3 +1,4 @@
+import { DetailGroupeComponent } from './detail-groupe/detail-groupe.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AddCandidatComponent } from './add-candidat/add-candidat.component';
@@ -21,9 +22,13 @@ const routes: Routes = [
   { path: 'juries', component: JuryComponent },
   { path: 'addCandidat', component: AddCandidatComponent },
   { path: 'addEvent', component: AddEventComponent },
+  { path: 'addEvent/:id', component: AddEventComponent },
   { path: 'addGroup', component: AddGroupComponent },
   { path: 'addCritere', component: AddCritereComponent },
   { path: 'addJury', component: AddJuryComponent },
+  { path: 'addJury/:id', component: AddJuryComponent },
+  { path: 'addCritere/:id', component: AddCritereComponent },
+  { path: 'detailGrp/:id', component: DetailGroupeComponent },
 
 
 ];

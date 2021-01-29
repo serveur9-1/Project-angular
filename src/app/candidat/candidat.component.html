@@ -7,22 +7,23 @@
             <!-- Header title + link to see all -->
             <div class="d-flex mb-3">
               <h2 class="m-0">Liste des Candidats</h2>
-              <a routerLink="/addCandidat" class="btn btn-secondary ml-auto">Ajouter Candidat</a>
+              <a routerLink="/addCandidat" class="btn btn-secondary ml-auto" style="float: right;">Ajouter Candidat</a>
             </div>
             <div class="row discovery-carousel-frame-row">
-              <div class="col-4 mt-4" *ngFor="let candidat of allCandidats" style="width: 506px !important;">
-                <div class="card border">
-                  <img src="../../assets/images/discovery.svg" alt="" class="card-img-top bg-yellow" width="416"
+              <div class="col-4 mt-4" *ngFor="let candidat of allCandidats" style="width: 536px !important;">
+                <div class="card border mr-3" style="width: 350px !important;">
+                  <img [src]="'data:image/jpeg;base64,' + candidat.candidatPhoto" alt="" class="card-img-top bg-yellow" width="416"
                     height="229" loading="lazy" />
                   <div class="card-body position-static">
-                    <div class="card-text mb-1 ">{{candidat.candidatCode}}</div>
-                    <div class="card-text mb-1" *ngIf="candidat.evenement">{{candidat.evenement.evenementNom}}</div>
-                    <div class="card-text mb-1">{{candidat.candidatNom}} {{candidat.candidatPrenoms}}</div>
-                    <div class="card-text mb-1">{{candidat.candidatEmail}}</div>
-                    <div class="card-text mb-1">{{candidat.candidatTelephone}}</div>
+                    <div class="card-text mb-1" *ngIf="candidat.evenement"><span class="badge badge-info" style="float: right;">{{candidat.evenement.evenementNom}}</span></div>
+                    <div class="card-text mb-1 ">Code : {{candidat.candidatCode}}</div>
+                    <div class="card-text mb-1"> Nom : {{candidat.candidatNom}} {{candidat.candidatPrenoms}}</div>
+                    <div class="card-text mb-1">Email : {{candidat.candidatEmail}}</div>
+                    <div class="card-text mb-1">Tel : {{candidat.candidatTelephone}}</div>
                     <div>
                       <a href="#" class="btn btn-primary mt-3 float-left">Modifier</a>
-                      <button (click)="deleteCandidat(candidat.candidatId)"
+                      <button *ngIf="candidat.candidatId" (click)="deleteCandidat(candidat.candidatId)"
+                        data-toggle="modal" data-target="#confirmDelete"
                         class="btn btn-secondary mt-3 float-right">Supprimer</button>
                     </div>
                   </div>
@@ -30,33 +31,32 @@
               </div>
             </div>
           </div>
-
-          <!-- Modal -->
-          <div class="modal fade" id="confirm-dialog" role="dialog" aria-labelledby="myModalLabel" tabindex="-1">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h2 class="modal-title h4" id="myModalLabel">Veuillez confirmer</h2>
-                  <!-- Boosted mod: using visually hidden text instead of aria-label -->
-                  <button type="button" class="close" data-dismiss="modal">
-                    <span class="sr-only">Close confirmation modal</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <p>If you delete this entry, all information will be permanently lost. Are you sure?</p>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                  <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- fin modal -->
-
         </div>
       </div>
     </div>
   </div>
+  <!-- Modal -->
+  <div class="modal fade" id="confirmDelete" role="dialog" aria-labelledby="myModalLabel" tabindex="-1">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title h4" id="myModalLabel">Confirmation deletion</h2>
+          <!-- Boosted mod: using visually hidden text instead of aria-label -->
+          <button type="button" class="close" data-dismiss="modal">
+            <span class="sr-only">Close confirmation modal</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Si vous supprimer ce candidat , cela sera définitif. ètes-vous sûre de vouloir supprimer?
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Retour</button>
+          <button type="button" (click)="deleteOK()" class="btn btn-primary" data-dismiss="modal">Supprimer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- fin modal -->
 
 </main>

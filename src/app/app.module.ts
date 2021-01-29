@@ -17,8 +17,12 @@ import { AddEventComponent } from './add-event/add-event.component';
 import { AddGroupComponent } from './add-group/add-group.component';
 import { AddCritereComponent } from './add-critere/add-critere.component';
 import { AddJuryComponent } from './add-jury/add-jury.component';
-import { from } from 'rxjs';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import {HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DetailGroupeComponent } from './detail-groupe/detail-groupe.component';
+
 
 @NgModule({
   declarations: [
@@ -36,12 +40,17 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     AddGroupComponent,
     AddCritereComponent,
     AddJuryComponent,
+    DetailGroupeComponent,
   ],
   imports: [
-    ApiModule.forRoot({rootUrl: 'http://127.0.0.1:8080/'}),
+    ApiModule.forRoot({rootUrl: 'http://127.0.0.1:8080'}),
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
     
   ],
   providers: [],

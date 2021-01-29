@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { Groupes } from '../api/models';
-import { GroupeControllerService } from '../api/services';
+import { GroupeControllerService } from '../api/services/groupe-controller.service';
 
 @Component({
   selector: 'app-groupe',
@@ -10,7 +11,8 @@ import { GroupeControllerService } from '../api/services';
 export class GroupeComponent implements OnInit {
 
   allgroupes : Groupes[] = [];
-  constructor(private groupeService : GroupeControllerService) { }
+  groupeId!: number;
+  constructor(private groupeService : GroupeControllerService,private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.reloadData();
@@ -30,10 +32,15 @@ export class GroupeComponent implements OnInit {
     )
   }
 
-  deleteGroupe(groupeId: any) {
-    this.groupeService.deleteUsingDELETE4(groupeId)
+  deleteGroupe(groupeId: number) {
+    this.groupeId = groupeId ; // **stored particular Id**
+    console.log(this.groupeId)
+  }
+  deleteOK() {
+    this.groupeService.deleteUsingDELETE4(this.groupeId)
       .subscribe(
         data => {
+          this.toastr.success("groupe supprimé avec succès");
           console.log(data);
           this.reloadData();
         },

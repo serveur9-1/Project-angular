@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Jury } from '../api/models';
-import { JuryControllerService } from '../api/services';
+import { ToastrService } from 'ngx-toastr';
+import { Evenement, Jury } from '../api/models';
+import { EvenementControllerService } from '../api/services';
+import { JuryControllerService } from '../api/services/jury-controller.service';
 
 @Component({
   selector: 'app-jury',
@@ -10,7 +12,9 @@ import { JuryControllerService } from '../api/services';
 export class JuryComponent implements OnInit {
 
   allJuries : Jury[] = []
-  constructor(private juryService : JuryControllerService) { }
+  allEvents : Evenement[] = [];
+  juryId!: number;
+  constructor(private juryService : JuryControllerService,private toastr: ToastrService,private eventService: EvenementControllerService) { }
 
   ngOnInit(): void {
     this.reloadData();
@@ -30,14 +34,18 @@ export class JuryComponent implements OnInit {
     )
   }
 
-  deleteJury(juryId: any) {
-    this.juryService.deleteUsingDELETE5(juryId)
+  deleteJury(juryId: number) {
+    this.juryId = juryId ; // **stored particular Id**
+  }
+  deleteOK() {
+    this.juryService.deleteUsingDELETE5(this.juryId)
       .subscribe(
         data => {
+          this.toastr.success("jury supprimé avec succès");
           console.log(data);
           this.reloadData();
         },
-        error => console.log(error));
+        error => this.toastr.error(error));
   }
 
 }

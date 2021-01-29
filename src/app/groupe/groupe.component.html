@@ -7,19 +7,22 @@
             <!-- Header title + link to see all -->
             <div class="d-flex mb-3">
               <h2 class="m-0">Liste des groupes</h2>
-              <a routerLink="/addCandidat" class="btn btn-secondary ml-auto">Ajouter un groupe</a>
+              <a routerLink="/addGroup" class="btn btn-secondary ml-auto">Ajouter un groupe</a>
             </div>
             <div class="row discovery-carousel-frame-row">
-              <div class="col-4 mt-4" *ngFor="let groupe of allgroupes" style="width: 506px !important;">
-                <div class="card border">
-                  <img src="../../assets/images/discovery.svg" alt="" class="card-img-top bg-yellow" width="416" height="229" loading="lazy"/>
+              <div class="col-4 mt-4 mr-3" *ngFor="let groupe of allgroupes" style="width: 506px !important;">
+                <div class="card border mr-3"  style="width: 350px !important;">
+                  <img [src]="'data:image/jpeg;base64,' + groupe.groupePhoto" alt="" class="card-img-top bg-yellow" width="416"
+                    height="229" loading="lazy" />
                   <div class="card-body position-static">
-                    <div class="card-text mb-1 ">{{groupe.groupeCode}}</div>
-                    <div class="card-text mb-1" *ngIf="groupe.evenement">{{groupe.evenement.evenementNom}}</div>
-                    <div class="card-text mb-1">{{groupe.groupeNom}}</div>
+                    <div class="card-text mb-1" *ngIf="groupe.evenement"><span class="badge badge-info" style="float: right;">{{groupe.evenement.evenementNom}}</span></div>
+                    <a [routerLink]="['/detailGrp', groupe.groupeId]" style="text-decoration: none;"><div class="card-text mb-2" style="font-size: 25px;font-weight:bold;"> {{groupe.groupeNom}}</div></a>
+                    <div class="card-text mb-1 ">Code : {{groupe.groupeCode}}</div>
+                    
                     <div>
                       <a href="#" class="btn btn-primary mt-3 float-left">Modifier</a>
-                      <button (click)="deleteGroupe(groupe.groupeId)" class="btn btn-secondary mt-3 float-right">Supprimer</button>
+                      <button *ngIf="groupe.groupeId" (click)="deleteGroupe(groupe.groupeId)" data-toggle="modal"
+                        data-target="#confirmDelete" class="btn btn-secondary mt-3 float-right">Supprimer</button>
                     </div>
                   </div>
                 </div>
@@ -31,5 +34,28 @@
       </div>
     </div>
   </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="confirmDelete" role="dialog" aria-labelledby="myModalLabel" tabindex="-1">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title h4" id="myModalLabel">Confirm deletion</h2>
+          <!-- Boosted mod: using visually hidden text instead of aria-label -->
+          <button type="button" class="close" data-dismiss="modal">
+            <span class="sr-only">Close confirmation modal</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Si vous supprimer ce jury , cela sera définitif. ètes-vous sûre de vouloir supprimer?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Retour</button>
+          <button type="button" (click)="deleteOK()" class="btn btn-primary" data-dismiss="modal">Supprimer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- fin modal -->
 
 </main>
