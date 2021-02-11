@@ -20,6 +20,7 @@ class GroupeCandidatControllerService extends __BaseService {
   static readonly getGroupeCandidatByIdUsingGETPath = '/groupe_candidat/{groupeCandidatID}';
   static readonly deleteUsingDELETE3Path = '/groupe_candidat/{groupeCandidatID}';
   static readonly getAllGroupeCandidatsUsingGETPath = '/groupe_candidats';
+  static readonly getGroupeCandidatByGroupIdUsingGETPath = '/groupe_candidats/{groupeID}';
 
   constructor(
     config: __Configuration,
@@ -173,6 +174,44 @@ class GroupeCandidatControllerService extends __BaseService {
    */
   getAllGroupeCandidatsUsingGET(): __Observable<Array<Groupe_candidats>> {
     return this.getAllGroupeCandidatsUsingGETResponse().pipe(
+      __map(_r => _r.body as Array<Groupe_candidats>)
+    );
+  }
+
+  /**
+   * getGroupeCandidatByGroupId
+   * @param groupeID groupeID
+   * @return OK
+   */
+  getGroupeCandidatByGroupIdUsingGETResponse(groupeID: number): __Observable<__StrictHttpResponse<Array<Groupe_candidats>>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/groupe_candidats/${encodeURIComponent(groupeID)}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Array<Groupe_candidats>>;
+      })
+    );
+  }
+  /**
+   * getGroupeCandidatByGroupId
+   * @param groupeID groupeID
+   * @return OK
+   */
+  getGroupeCandidatByGroupIdUsingGET(groupeID: number): __Observable<Array<Groupe_candidats>> {
+    return this.getGroupeCandidatByGroupIdUsingGETResponse(groupeID).pipe(
       __map(_r => _r.body as Array<Groupe_candidats>)
     );
   }

@@ -1,44 +1,56 @@
 <main role="main" id="content" class="container-fluid my-5">
-  
-    <form class="row" (submit)="onSubmit()" [formGroup]="candidatForm" id="PostAdminEditForm">
-      <div class="col-12 col-lg-6 m-auto">
-        <div class="container mb-4">
-          <h1>Ajout de candidat</h1>
-        </div>
-        <div class="form-group required">
-          <label for="PostName" class="is-required">Code</label>
-          <input name="data[Post][titre]" formControlName="candidatCode" class="form-control" maxlength="255" type="text" id="PostName">
-        </div>
-        <div class="form-group required">
-            <label for="Email" class="is-required">E-mail</label>
-            <input name="data[Post][Email]" formControlName="candidatEmail" class="form-control" maxlength="255" type="email" id="Email">
-        </div>
-        <div class="form-group required">
-            <label for="Name" class="is-required">Nom</label>
-            <input name="data[Post][Name]" formControlName="candidatNom" class="form-control" maxlength="255" type="Name" id="Name" required="required" aria-required="true">
-        </div>
-        <div class="form-group required">
-            <label for="LastName" class="is-required">Prénoms</label>
-            <input name="data[Post][LastName]" formControlName="candidatPrenoms" class="form-control" maxlength="255" type="LastName" id="LastName">
-        </div>
-        <div class="form-group required">
-            <label for="Number" class="is-required">Numéro</label>
-            <input name="data[Post][Number]" formControlName="candidatTelephone" class="form-control" maxlength="255" type="Number" id="Number" required="required" aria-required="true">
-        </div>
-        <div class="form-group">
-            <label for="PostCategoryId">Evenement</label>
-            <select name="data[Post][category_id]"  formControlName="evenementId" class="custom-select" id="PostCategoryId">
-              <option selected="true" disabled="disabled" value="">Choix d'évènement</option>
-              <option *ngFor="let event of allEvents" [value]="event.evenement_id">{{event.evenement_nom}}</option>
-            </select>
-        </div>
-        <div class="input-group mb-3">
-            <div class="custom-file">
-              <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-              <label class="custom-file-label" for="inputGroupFile01">Choisir un fichier</label>
-            </div>
-        </div>
-        <button type="submit" class="btn btn-primary float-right">Créer candidat</button>
+
+  <form class="row" (submit)="onSubmit()" [formGroup]="candidatForm" id="PostAdminEditForm">
+    <div class="col-12 col-lg-6 m-auto">
+      <div class="container mb-4">
+        <h1 *ngIf="!candidId; else titre">Ajout de candidat</h1>
+        <ng-template #titre>
+          <h1>Modification de candidat</h1>
+        </ng-template>
       </div>
-    </form>
-  </main><!--/.container-->
+      <div class="form-group required">
+        <label for="PostName" class="is-required">Code</label>
+        <input name="data[Post][titre]" formControlName="candidatCode" class="form-control" maxlength="255" type="text"
+          id="PostName">
+      </div>
+      <div class="form-group required">
+        <label for="Email" class="is-required">E-mail</label>
+        <input name="data[Post][Email]" formControlName="candidatEmail" class="form-control" maxlength="255"
+          type="email" id="Email">
+      </div>
+      <div class="form-group required">
+        <label for="Name" class="is-required">Nom</label>
+        <input name="data[Post][Name]" formControlName="candidatNom" class="form-control" maxlength="255" type="Name"
+          id="Name" required="required" aria-required="true">
+      </div>
+      <div class="form-group required">
+        <label for="LastName" class="is-required">Prénoms</label>
+        <input name="data[Post][LastName]" formControlName="candidatPrenoms" class="form-control" maxlength="255"
+          type="LastName" id="LastName">
+      </div>
+      <div class="form-group required">
+        <label for="Number" class="is-required">Numéro</label>
+        <input name="data[Post][Number]" formControlName="candidatTelephone" class="form-control" maxlength="255"
+          type="Number" id="Number" required="required" aria-required="true">
+      </div>
+      <div class="form-group">
+        <label for="PostCategoryId">Evenement</label>
+        <select name="data[Post][category_id]" formControlName="evenementId" class="custom-select" id="PostCategoryId">
+          <option selected="true" disabled="disabled" value="">Choix d'évènement</option>
+          <option *ngFor="let event of allEvents" [value]="event.evenement_id">{{event.evenement_nom}}</option>
+        </select>
+      </div>
+      <div class="input-group mb-3">
+        <div class="custom-file">
+          <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+          <label class="custom-file-label" for="inputGroupFile01">Choisir un fichier</label>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary float-right" *ngIf="!candidId; else add">Créer Candidat</button>
+      <ng-template #add>
+        <button type="submit" class="btn btn-primary float-right">Modifier le Candidat</button>
+      </ng-template>
+    </div>
+  </form>
+</main>
+<!--/.container-->

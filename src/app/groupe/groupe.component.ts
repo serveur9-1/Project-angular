@@ -10,7 +10,7 @@ import { GroupeControllerService } from '../api/services/groupe-controller.servi
 })
 export class GroupeComponent implements OnInit {
 
-  allgroupes : Groupes[] = [];
+  allgroupes : any = [];
   groupeId!: number;
   constructor(private groupeService : GroupeControllerService,private toastr: ToastrService) { }
 
@@ -24,7 +24,6 @@ export class GroupeComponent implements OnInit {
 
       (res)=>{
         this.allgroupes = res;
-        console.log(res)
       },
       (error) => {
         console.error(error)
@@ -33,15 +32,13 @@ export class GroupeComponent implements OnInit {
   }
 
   deleteGroupe(groupeId: number) {
-    this.groupeId = groupeId ; // **stored particular Id**
-    console.log(this.groupeId)
+    this.groupeId = groupeId ; 
   }
   deleteOK() {
     this.groupeService.deleteUsingDELETE4(this.groupeId)
       .subscribe(
         data => {
           this.toastr.success("groupe supprimé avec succès");
-          console.log(data);
           this.reloadData();
         },
         error => console.log(error));

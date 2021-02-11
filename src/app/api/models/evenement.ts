@@ -6,6 +6,6 @@ export interface Evenement {
   evenementDateFin?: string;
   evenementId?: number;
   evenementNom?: string;
-  evenementPhoto?: ArrayBuffer;
+  evenementPhoto?: string;
   evenementType?: string;
 }

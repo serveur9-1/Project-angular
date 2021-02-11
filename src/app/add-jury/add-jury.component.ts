@@ -58,7 +58,6 @@ export class AddJuryComponent implements OnInit {
 
       (res)=>{
         this.allEvents = res;
-        console.log(res)
       },
       (error) => {
         console.error(error)
@@ -76,13 +75,11 @@ export class AddJuryComponent implements OnInit {
           if (this.juryId) {
 
             this.toastr.success("jury modifié avec succès");
-            console.log(data);
               
             } else {
   
             this.toastr.success("jury ajouté avec succès");
             this.juryForm.reset();
-            console.log(data);
             }
         },
         error => this.toastr.error(error.message)

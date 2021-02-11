@@ -1,6 +1,6 @@
 <main role="main" id="content" class="container-fluid my-5">
     <div class="row mb-5">
-      <div class="col col-md-4">
+      <div class="col col-md-4 pr-lg-5">
         <h1 id="search">Détail du groupe</h1>
         <ul class="nav nav-tabs">
           <li class="nav-item"><a class="nav-link active" href="#users" data-toggle="tab">Détail groupe</a></li>
@@ -29,7 +29,7 @@
                   <div class="form-group col-12 col-lg-12">
                     <label class="is-required" for="location">Choisir un membre</label>
                     <select name="data[Post][category_id]"  formControlName="candidatId" class="custom-select" id="PostCategoryId">
-                        <option selected="true" disabled="disabled" value="">Choix d'évènement</option>
+                        <option selected="true" disabled="disabled" value="">Choisir un candidat</option>
                         <option *ngFor="let candidat of allCandid" [value]="candidat.candidatId">{{candidat.candidatNom}} {{candidat.candidatPrenoms}}</option>
                       </select>
                   </div>
@@ -42,7 +42,7 @@
         </div>
       </div>
   
-      <div class="col col-md-8 pl-lg-5">
+      <div class="col col-md-8 pl-lg-5" style="float: right ;">
         <table id="myTable" class="table tablesorter table-responsive">
           <caption>Participants </caption>
           <thead class="cf">
@@ -55,28 +55,41 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td class="alert alert-danger border-0 mb-0">1</td>
-              <td class="align-middle">Sande serveur</td>
-              <td class="align-middle">447765896321</td>
-              <td class="align-middle">Francksande@live.ca</td>
+            <tr *ngFor="let candidat of candidatByGroup">
+              <td class="alert alert-danger border-0 mb-0" *ngIf="candidat.candidat">{{candidat.candidat.candidatId}}</td>
+              <td class="align-middle" *ngIf="candidat.candidat">{{candidat.candidat.candidatNom}} {{candidat.candidat.candidatPrenoms}}</td>
+              <td class="align-middle" *ngIf="candidat.candidat">{{candidat.candidat.candidatCode}}</td>
+              <td class="align-middle" *ngIf="candidat.candidat">{{candidat.candidat.candidatEmail}}</td>
               <td class="align-middle">
-                <button  data-toggle="modal" data-target="#confirmDelete" class="btn btn-secondary">Supprimer</button>
-              </td>
-            </tr>
-            <tr>
-              <td class="alert alert-success border-0 mb-0">2</td>
-              <td class="align-middle">Sande serveur</td>
-              <td class="align-middle"><a href="#"><span class="sr-only">View system with ID </span>447765896327</a></td>
-              <td class="align-middle">Francksande@live.ca</td>
-              <td class="align-middle">
-                <button  data-toggle="modal" data-target="#confirmDelete" class="btn btn-secondary">Supprimer</button>
+                <button *ngIf="candidat.groupeCandidatId" (click)="deletecandidat(candidat.groupeCandidatId)" data-toggle="modal" data-target="#confirmDelete" class="btn btn-secondary">Supprimer</button>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
-
+      <!-- Modal -->
+  <div class="modal fade" id="confirmDelete" role="dialog" aria-labelledby="myModalLabel" tabindex="-1">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title h4" id="myModalLabel">Confirmation de suppression</h2>
+          <!-- Boosted mod: using visually hidden text instead of aria-label -->
+          <button type="button" class="close" data-dismiss="modal">
+            <span class="sr-only">Close confirmation modal</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Si vous supprimer ce évènement , cela sera définitif et vous perdrez toutes les données qui y vont avec. ètes-vous sûre de vouloir supprimer?
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Retour</button>
+          <button type="button" (click)="deleteOK()" class="btn btn-primary" data-dismiss="modal">Supprimer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- fin modal -->
     <!-- fin de la row globale-->
   </main>

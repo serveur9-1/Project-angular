@@ -25,7 +25,6 @@ export class CritereComponent implements OnInit {
 
       (res)=>{
         this.allCriteres = res;
-        console.log(res)
       },
       (error) => {
         console.error(error)
@@ -40,7 +39,6 @@ export class CritereComponent implements OnInit {
       .subscribe(
         data => {
           this.toastr.success("Critère supprimé avec succès");
-          console.log(data);
           this.reloadData();
         },
         error => this.toastr.error("Critère supprimé avec succès"));

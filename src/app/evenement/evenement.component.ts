@@ -11,7 +11,7 @@ import { EvenementControllerService } from '../api/services/evenement-controller
 })
 export class EvenementComponent implements OnInit {
 
-  allEvents : IParticipantService[] = [];
+  allEvents : any = [];
   evenementId!: number;
   constructor(private eventService: EvenementControllerService,private toastr: ToastrService) { }
 
@@ -25,7 +25,6 @@ export class EvenementComponent implements OnInit {
 
       (res)=>{
         this.allEvents = res;
-        console.log(res)
       },
       (error) => {
         console.error(error)
@@ -40,8 +39,7 @@ export class EvenementComponent implements OnInit {
     this.eventService.deleteUsingDELETE2(this.evenementId)
       .subscribe(
         data => {
-          this.toastr.success("Critère supprimé avec succès");
-          console.log(data);
+          this.toastr.success("Evenement supprimé avec succès");
           this.reloadData();
         },
         error => console.log(error));

@@ -52,7 +52,6 @@ export class AddCritereComponent implements OnInit {
 
       (res)=>{
         this.allEvents = res;
-        console.log(res)
       },
       (error) => {
         console.error(error)
@@ -63,7 +62,6 @@ export class AddCritereComponent implements OnInit {
   onSubmit(){
     if (!this.critereForm.valid) {
       this.toastr.error("Veuillez renseigner les champs réquis");
-      console.log(this.critereForm.value)
     } else {
       this.critereService.createOrUpdateCritereUsingPOST({...this.critereForm.value, evenement: {evenementId:this.critereForm.value.evenementId}})
       .subscribe(
@@ -71,13 +69,11 @@ export class AddCritereComponent implements OnInit {
           if (this.critereId) {
 
             this.toastr.success("critère modifié avec succès");
-            console.log(data);
               
             } else {
   
             this.toastr.success("critère ajouté avec succès");
             this.critereForm.reset();
-            console.log(data);
             }
         },
         error => this.toastr.error(error.message)

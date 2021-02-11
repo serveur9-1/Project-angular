@@ -1,7 +1,7 @@
 import { Evenement } from './../api/models/evenement';
 import { Component, OnInit } from '@angular/core';
 import { EvenementControllerService } from '../api/services/evenement-controller.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
 
@@ -16,7 +16,13 @@ export class AddEventComponent implements OnInit {
   eventForm!: FormGroup;
   evenId!: number;
   submitted =false;
-  constructor(private eventService :  EvenementControllerService,private toastr: ToastrService, private fb: FormBuilder, private router: ActivatedRoute) { }
+  file=new FormControl('');
+  file_data:any='';
+  urls: any;
+  images: any;
+
+
+  constructor(private eventService :  EvenementControllerService,private toastr: ToastrService, private fb: FormBuilder, private router: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.evenFormInit()
@@ -29,6 +35,8 @@ export class AddEventComponent implements OnInit {
     }
   }
 
+ 
+
   evenFormInit(){
     this.eventForm = this.fb.group({
       evenementId : [100000],
@@ -36,27 +44,67 @@ export class AddEventComponent implements OnInit {
       evenementType : ["Individuel", Validators.required],
       evenementDateDebut : ["", Validators.required],
       evenementDateFin : ["", Validators.required],
+      evenementPhoto: [null]
     })
   }
+  fileChange(event: any) {
+    
+    this.urls = [];
+    this.images = [];
+    if (event.target.files && event.target.files[0]) {
+      const filesAmount = event.target.files.length;
+      for (let i = 0; i < filesAmount; i++) {
+        this.images[i] = event.target.files[i];
+        const reader = new FileReader();
+        // console.log(new FileReader());
+        // tslint:disable-next-line:no-shadowed-variable
+        reader.onload = (event: any) => {
+          this.urls.push(event.target.result);
+        };
+        reader.readAsDataURL(event.target.files[i]);
+      }
+    }
+    // console.log(this.urls[0]);
+
+  }
+
+  onSelectFile(event: any) {
+
+    this.urls = [];
+    this.images = [];
+    if (event.target.files && event.target.files[0]) {
+      const filesAmount = event.target.files.length;
+      for (let i = 0; i < filesAmount; i++) {
+        this.images[i] = event.target.files[i];
+        const reader = new FileReader();
+        // console.log(new FileReader());
+        // tslint:disable-next-line:no-shadowed-variable
+        reader.onload = (event: any) => {
+          this.urls.push(event.target.result);
+        };
+        reader.readAsDataURL(event.target.files[i]);
+      }
+    }
+  }
+
 
   onSubmit(){
+
+    this.eventForm.value.evenementPhoto = this.urls[0];
     if (!this.eventForm.valid) {
       this.toastr.error("Veuillez renseigner les champs réquis");
     } else {
-      console.log(this.eventForm)
       this.eventService.createOrUpdateEvenementUsingPOST(this.eventForm.value)
       .subscribe(
         data => {
           if (this.evenId) {
 
           this.toastr.success("evenement modifié avec succès");
-          console.log(data);
             
           } else {
 
           this.toastr.success("evenement ajouté avec succès");
           this.eventForm.reset();
-          console.log(data);
           }
         },
         error => this.toastr.error(error.message)

@@ -29,7 +29,7 @@
           <td class="align-middle">{{jury.juryTelephone}}</td>
           <td class="align-middle" *ngIf="jury.evenement">{{jury.evenement.evenementNom}}</td>
           <td class="align-middle">
-            <a [routerLink]="['/addJury', jury.juryId]" class="btn btn-primary mr-2">Edit</a>
+            <a [routerLink]="['/addJury', jury.juryId]" class="btn btn-primary mr-2">Modifier</a>
             <button *ngIf="jury.juryId" (click)="deleteJury(jury.juryId)" data-toggle="modal"
                         data-target="#confirmDelete" class="btn btn-secondary">Supprimer</button>
           </td>

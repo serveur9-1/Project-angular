@@ -26,7 +26,6 @@ export class JuryComponent implements OnInit {
 
       (res)=>{
         this.allJuries = res;
-        console.log(res)
       },
       (error) => {
         console.error(error)
@@ -35,14 +34,13 @@ export class JuryComponent implements OnInit {
   }
 
   deleteJury(juryId: number) {
-    this.juryId = juryId ; // **stored particular Id**
+    this.juryId = juryId ; 
   }
   deleteOK() {
     this.juryService.deleteUsingDELETE5(this.juryId)
       .subscribe(
         data => {
           this.toastr.success("jury supprimé avec succès");
-          console.log(data);
           this.reloadData();
         },
         error => this.toastr.error(error));

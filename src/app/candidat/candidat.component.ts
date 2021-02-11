@@ -9,7 +9,7 @@ import { CandidatControllerService } from '../api/services/candidat-controller.s
   styleUrls: ['./candidat.component.css']
 })
 export class CandidatComponent implements OnInit {
-  allCandidats : Candidats[] = [];
+  allCandidats :any[] = [];
   candidatId!: number;
   constructor(private candidatsService : CandidatControllerService,private toastr: ToastrService) { }
 
@@ -22,7 +22,6 @@ export class CandidatComponent implements OnInit {
     this.candidatsService.getAllCandidatsUsingGET().subscribe(
       (res)=>{
         this.allCandidats = res;
-        console.log(res)
       },
       (error) => {
         console.error(error)
@@ -31,15 +30,13 @@ export class CandidatComponent implements OnInit {
   }
 
   deleteCandidat(candidatId: number) {
-    this.candidatId = candidatId ; // **stored particular Id**
-    console.log(this.candidatId)
+    this.candidatId = candidatId ; 
   }
   deleteOK() {
     this.candidatsService.deleteUsingDELETE(this.candidatId)
       .subscribe(
         data => {
           this.toastr.success("candidat supprimé avec succès");
-          console.log(data);
           this.reloadData();
         },
         error => this.toastr.error(error.message));
