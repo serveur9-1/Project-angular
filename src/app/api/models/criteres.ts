@@ -1,7 +1,7 @@
 /* tslint:disable */
 import { Evenement } from './evenement';
 export interface Criteres {
-  critereBareme?: number;
+  critereBareme?: string;
   critereId?: number;
   critereLibelle?: string;
   evenement?: Evenement;

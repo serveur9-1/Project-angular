@@ -1,5 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { EventServiceService } from './../event-service.service';
+import { HttpClient } from '@angular/common/http';
 import { Evenement } from './../api/models/evenement';
 import { Component, OnInit } from '@angular/core';
 import { EvenementControllerService } from '../api/services/evenement-controller.service';
@@ -24,7 +23,7 @@ export class AddEventComponent implements OnInit {
   public imagePath: any;
   imgURL: any;
   message: string | undefined;
-  formData = new FormData();
+  image :any;
 
 
   constructor(private eventService: EvenementControllerService, private toastr: ToastrService, private fb: FormBuilder, private router: ActivatedRoute, private HttpClient : HttpClient) { }
@@ -41,7 +40,6 @@ export class AddEventComponent implements OnInit {
       )
     }
   }
-  
 
 
 
@@ -57,33 +55,39 @@ export class AddEventComponent implements OnInit {
   }
 
   addData() {
-    const optionRequete = {
-      headers: new HttpHeaders({ 
-        'Access-Control-Allow-Origin':'*',
-      })
-    };
+
+    const formData : any = new FormData();
     const evenement = this.eventForm.value;
-    this.formData.append('evenement',evenement);
-    console.log('eee', this.formData)
-    this.HttpClient.post<Evenement>("http://127.0.0.1:8080/evenements",evenement).subscribe(
-      (res)=>{
-        console.log(res);
-      },
-      (error) => {
-        console.error(error)
-      }
+    delete evenement.evenementPhoto;
+    const myObjStr = JSON.stringify(evenement);
+
+    formData.append('evenement',myObjStr);
+    formData.append('file',this.image);
+
+    console.log('eee', formData.get('evenement'))
+    console.log('file', formData.get('file'))
+    
+    console.log('eee', evenement)
+    // this.eventService.createOrUpdateEvenementUsingPOST(formData).subscribe(
+    //   data => console.log('tttt',data)
+    // )
+    this.HttpClient.post<Evenement>("http://127.0.0.1:8080/evenements",formData).subscribe(
+      data => console.log(data),
+      error => console.error(error)
+      
     )
   }
+// this.HttpClient.post<Evenement>("http://127.0.0.1:8080/evenements",evenement)
 
   onSelectFile(event: any) {
     let blobTest : any;
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
       let blob :any;
+      this.image = file;
       // COnversion en type blob
        file.arrayBuffer().then((arrayBuffer: any) => {
         blobTest = arrayBuffer;
-        this.f['evenementPhoto'].setValue(file);
         blob = new Blob([new Uint8Array(blobTest)], {type: file.type });
         console.log('file blob', blobTest   )
     });
