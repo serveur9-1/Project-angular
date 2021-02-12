@@ -1,38 +1,44 @@
+<app-header></app-header>
 <main role="main" id="content" class="container-fluid my-5">
-  
-    <form class="row" (submit)="onSubmit()" [formGroup]="groupForm" id="PostAdminEditForm">
-      <div class="col-12 col-lg-6 m-auto">
-        <div class="container mb-4">
-          <h1 *ngIf="!groupeId; else titre">Ajout de groupe</h1>
-          <ng-template #titre>
-            <h1 >Modification de groupe</h1>
-          </ng-template>
+
+  <form class="row" (submit)="onSubmit()" [formGroup]="groupForm" id="PostAdminEditForm">
+    <div class="col-12 col-lg-6 m-auto">
+      <div class="container mb-4">
+        <h1 *ngIf="!groupeId; else titre">Ajout de groupe</h1>
+        <ng-template #titre>
+          <h1>Modification de groupe</h1>
+        </ng-template>
+      </div>
+      <div class="form-group required">
+        <label for="PostName" class="is-required">Code</label>
+        <input name="data[Post][titre]" formControlName="groupeCode" class="form-control" maxlength="255" type="text"
+          id="PostName" required="required" aria-required="true">
+      </div>
+      <div class="form-group required">
+        <label for="Name" class="is-required">Nom</label>
+        <input name="data[Post][Name]" formControlName="groupeNom" class="form-control" maxlength="255" type="Name"
+          id="Name" required="required" aria-required="true">
+      </div>
+      <div class="form-group">
+        <label for="PostCategoryId">Evenement</label>
+        <select name="data[Post][category_id]" formControlName="evenementId" class="custom-select" id="PostCategoryId">
+          <option selected="true" disabled="disabled" value="">Choix d'évènement</option>
+          <option *ngFor="let event of allEvents" [value]="event.evenement_id">{{event.evenement_nom}}</option>
+        </select>
+      </div>
+      <div class="input-group mb-3">
+        <div class="custom-file">
+          <input type="file" id="file" class="custom-file-input" id="inputGroupFile01"
+            aria-describedby="inputGroupFileAddon01">
+          <label class="custom-file-label" for="inputGroupFile01">Choisir un fichier</label>
         </div>
-        <div class="form-group required">
-          <label for="PostName" class="is-required">Code</label>
-          <input name="data[Post][titre]" formControlName="groupeCode" class="form-control" maxlength="255" type="text" id="PostName" required="required" aria-required="true">
-        </div>
-        <div class="form-group required">
-            <label for="Name" class="is-required">Nom</label>
-            <input name="data[Post][Name]" formControlName="groupeNom" class="form-control" maxlength="255" type="Name" id="Name" required="required" aria-required="true">
-        </div>
-        <div class="form-group">
-            <label for="PostCategoryId">Evenement</label>
-            <select name="data[Post][category_id]"  formControlName="evenementId" class="custom-select" id="PostCategoryId">
-              <option selected="true" disabled="disabled" value="">Choix d'évènement</option>
-              <option *ngFor="let event of allEvents" [value]="event.evenement_id" >{{event.evenement_nom}}</option>
-            </select>
-        </div>
-        <div class="input-group mb-3">
-            <div class="custom-file">
-              <input type="file" id="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-              <label class="custom-file-label" for="inputGroupFile01">Choisir un fichier</label>
-            </div>
-        </div>
-        <button type="submit" class="btn btn-primary float-right" *ngIf="!groupeId; else add">Créer groupe</button>
+      </div>
+      <button type="submit" class="btn btn-primary float-right" *ngIf="!groupeId; else add">Créer groupe</button>
       <ng-template #add>
         <button type="submit" class="btn btn-primary float-right">Modifier le groupe</button>
       </ng-template>
-      </div>
-    </form>
-  </main><!--/.container-->
+    </div>
+  </form>
+</main>
+
+<app-footer></app-footer>

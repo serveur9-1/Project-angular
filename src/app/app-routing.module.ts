@@ -1,3 +1,4 @@
+import { LoginComponent } from './login/login.component';
 import { DetailGroupeComponent } from './detail-groupe/detail-groupe.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -20,7 +21,7 @@ const routes: Routes = [
   { path: 'criteres', component: CritereComponent },
   { path: 'groupes', component: GroupeComponent },
   { path: 'juries', component: JuryComponent },
-  { path: 'addCandidat', component: AddCandidatComponent },
+  { path: 'addCandidat', component: AddCandidatComponent }, 
   { path: 'addCandidat/:id', component: AddCandidatComponent },
   { path: 'addEvent', component: AddEventComponent },
   { path: 'addEvent/:id', component: AddEventComponent },
@@ -31,6 +32,7 @@ const routes: Routes = [
   { path: 'addJury/:id', component: AddJuryComponent },
   { path: 'addCritere/:id', component: AddCritereComponent },
   { path: 'detailGrp/:id', component: DetailGroupeComponent },
+  { path: 'login', component : LoginComponent },
 
 
 ];

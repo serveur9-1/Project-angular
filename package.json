@@ -21,6 +21,7 @@
     "@angular/router": "~11.0.9",
     "boosted": "^4.6.0",
     "bootstrap": "^3.3.7",
+    "file-to-array-buffer": "^1.0.0",
     "ngx-toastr": "^13.2.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",

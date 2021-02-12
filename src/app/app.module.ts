@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ApiModule } from './api/api.module'
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -22,6 +21,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DetailGroupeComponent } from './detail-groupe/detail-groupe.component';
+import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
@@ -41,6 +41,7 @@ import { DetailGroupeComponent } from './detail-groupe/detail-groupe.component';
     AddCritereComponent,
     AddJuryComponent,
     DetailGroupeComponent,
+    LoginComponent,
   ],
   imports: [
     ApiModule.forRoot({rootUrl: 'http://127.0.0.1:8080'}),

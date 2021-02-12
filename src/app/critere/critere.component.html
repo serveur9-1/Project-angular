@@ -1,58 +1,61 @@
+<app-header></app-header>
 <main role="main" id="content" class="my-5">
-    <div class="container-fluid">
-      <h1>Nos Critères</h1>
-    </div>
+  <div class="container-fluid">
+    <h1>Nos Critères</h1>
+  </div>
 
-  
-    <div class="container-fluid">
-      <table id="news-table" class="table tablesorter mb-5">
-        <caption>
-          <a routerLink="/addCritere" class="btn btn-sm btn-secondary ml-3 float-right">Ajouter critère</a>
-        </caption>
-        <thead class="cf">
-          <tr>
-            <th scope="col" class="header">ID</th>
-            <th scope="col" class="header">Barème</th>
-            <th scope="col" class="header">Libéllé</th>
-            <th scope="col" class="header">Evenement</th>
-            <th scope="col" class="header">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let critere of allCriteres">
-            <td class="align-middle">{{critere.critereId}}</td>
-            <td class="align-middle">/{{critere.critereBareme}}</td>
-            <td class="align-middle">{{critere.critereLibelle}}</td>
-            <td class="align-middle" *ngIf="critere.evenement">{{critere.evenement!.evenementNom}}</td>
-            <td class="align-middle">
-              <a [routerLink]="['/addCritere', critere.critereId]" class="btn btn-primary mr-3">Modifier</a>
-              <button *ngIf="critere.critereId" (click)="deleteCritere(critere.critereId)" data-toggle="modal"
+
+  <div class="container-fluid">
+    <table id="news-table" class="table tablesorter mb-5">
+      <caption>
+        <a routerLink="/addCritere" class="btn btn-sm btn-secondary ml-3 float-right">Ajouter critère</a>
+      </caption>
+      <thead class="cf">
+        <tr>
+          <th scope="col" class="header">ID</th>
+          <th scope="col" class="header">Barème</th>
+          <th scope="col" class="header">Libéllé</th>
+          <th scope="col" class="header">Evenement</th>
+          <th scope="col" class="header">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let critere of allCriteres">
+          <td class="align-middle">{{critere.critereId}}</td>
+          <td class="align-middle">/{{critere.critereBareme}}</td>
+          <td class="align-middle">{{critere.critereLibelle}}</td>
+          <td class="align-middle" *ngIf="critere.evenement">{{critere.evenement!.evenementNom}}</td>
+          <td class="align-middle">
+            <a [routerLink]="['/addCritere', critere.critereId]" class="btn btn-primary mr-3">Modifier</a>
+            <button *ngIf="critere.critereId" (click)="deleteCritere(critere.critereId)" data-toggle="modal"
               data-target="#confirmDelete" class="btn btn-secondary">Supprimer</button>
-            </td>
-            <!-- Modal -->
-            <div class="modal fade" id="confirmDelete" role="dialog" aria-labelledby="myModalLabel" tabindex="-1">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h2 class="modal-title h4" id="myModalLabel">Confirm deletion</h2>
-                    <!-- Boosted mod: using visually hidden text instead of aria-label -->
-                    <button type="button" class="close" data-dismiss="modal">
-                      <span class="sr-only">Close confirmation modal</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <p>Si vous supprimer ce critère , cela sera définitif. ètes-vous sûre de vouloir supprimer?</p>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Retour</button>
-                    <button type="button"  (click)="deleteOK()" class="btn btn-primary" data-dismiss="modal">Supprimer</button>
-                  </div>
+          </td>
+          <!-- Modal -->
+          <div class="modal fade" id="confirmDelete" role="dialog" aria-labelledby="myModalLabel" tabindex="-1">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h2 class="modal-title h4" id="myModalLabel">Confirm deletion</h2>
+                  <!-- Boosted mod: using visually hidden text instead of aria-label -->
+                  <button type="button" class="close" data-dismiss="modal">
+                    <span class="sr-only">Close confirmation modal</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>Si vous supprimer ce critère , cela sera définitif. ètes-vous sûre de vouloir supprimer?</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Retour</button>
+                  <button type="button" (click)="deleteOK()" class="btn btn-primary"
+                    data-dismiss="modal">Supprimer</button>
                 </div>
               </div>
             </div>
-            <!-- fin modal -->
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </main>
+          </div>
+          <!-- fin modal -->
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</main>
+<app-footer></app-footer>

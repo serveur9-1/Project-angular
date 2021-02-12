@@ -1,74 +1,81 @@
+<app-header></app-header>
 <main role="main" id="content" class="container-fluid my-5">
-    <div class="row mb-5">
-      <div class="col col-md-4 pr-lg-5">
-        <h1 id="search">Détail du groupe</h1>
-        <ul class="nav nav-tabs">
-          <li class="nav-item"><a class="nav-link active" href="#users" data-toggle="tab">Détail groupe</a></li>
-          <li class="nav-item"><a class="nav-link" href="#devices" data-toggle="tab">Ajouter Membre</a></li>
-        </ul>
-        <div class="tab-content">
-          <div class="tab-pane active" id="users">
-            <div class="card mb-3" style="max-width: 540px;" >
-                <div class="row no-gutters">
-                  <div class="col-md-4">
-                     <img style="height: 100%; width: 100%; object-fit: contain" [src]="'data:image/jpeg;base64,' + GroupeD.groupePhoto" alt="...">
-                  </div>
-                  <div class="col-md-8">
-                    <div class="card-body">
-                      <h3 class="card-title" >Name : {{GroupeD.groupeNom}}</h3>
-                      <h5 class="card-title" >Code : {{GroupeD.groupeCode}}</h5>
-                      <p class="card-text"><small class="text-muted"><span class="badge badge-info">{{GroupeD.evenement.evenementNom}}</span></small></p>
-                    </div>
-                  </div>
+  <div class="row mb-5">
+    <div class="col col-md-4 pr-lg-5">
+      <h1 id="search">Détail du groupe</h1>
+      <ul class="nav nav-tabs">
+        <li class="nav-item"><a class="nav-link active" href="#users" data-toggle="tab">Détail groupe</a></li>
+        <li class="nav-item"><a class="nav-link" href="#devices" data-toggle="tab">Ajouter Membre</a></li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane active" id="users">
+          <div class="card mb-3" style="max-width: 540px;">
+            <div class="row no-gutters">
+              <div class="col-md-4">
+                <img style="height: 100%; width: 100%; object-fit: contain"
+                  [src]="'data:image/jpeg;base64,' + GroupeD.groupePhoto" alt="...">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h3 class="card-title">Name : {{GroupeD.groupeNom}}</h3>
+                  <h5 class="card-title">Code : {{GroupeD.groupeCode}}</h5>
+                  <p class="card-text"><small class="text-muted"><span
+                        class="badge badge-info">{{GroupeD.evenement.evenementNom}}</span></small></p>
                 </div>
               </div>
-          </div>
-          <div class="tab-pane" id="devices">
-            <form (submit)="onSubmit()" [formGroup]="addCandGroupForm">
-                <div class="row">
-                  <div class="form-group col-12 col-lg-12">
-                    <label class="is-required" for="location">Choisir un membre</label>
-                    <select name="data[Post][category_id]"  formControlName="candidatId" class="custom-select" id="PostCategoryId">
-                        <option selected="true" disabled="disabled" value="">Choisir un candidat</option>
-                        <option *ngFor="let candidat of allCandid" [value]="candidat.candidatId">{{candidat.candidatNom}} {{candidat.candidatPrenoms}}</option>
-                      </select>
-                  </div>
-                  <div class="form-group col-12 col-lg-6 mb-0">
-                    <button type="submit" class="btn btn-primary">Enregistrer</button>
-                  </div>
-                </div>
-              </form>
+            </div>
           </div>
         </div>
-      </div>
-  
-      <div class="col col-md-8 pl-lg-5" style="float: right ;">
-        <table id="myTable" class="table tablesorter table-responsive">
-          <caption>Participants </caption>
-          <thead class="cf">
-            <tr class="text-center">
-              <th class="header" scope="col">Id</th>
-              <th class="header" scope="col">Nom et prenoms</th>
-              <th class="header hide-when-small" scope="col">Code</th>
-              <th class="header" scope="col">Email</th>
-              <th class="header hide-when-small" scope="col">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let candidat of candidatByGroup">
-              <td class="alert alert-danger border-0 mb-0" *ngIf="candidat.candidat">{{candidat.candidat.candidatId}}</td>
-              <td class="align-middle" *ngIf="candidat.candidat">{{candidat.candidat.candidatNom}} {{candidat.candidat.candidatPrenoms}}</td>
-              <td class="align-middle" *ngIf="candidat.candidat">{{candidat.candidat.candidatCode}}</td>
-              <td class="align-middle" *ngIf="candidat.candidat">{{candidat.candidat.candidatEmail}}</td>
-              <td class="align-middle">
-                <button *ngIf="candidat.groupeCandidatId" (click)="deletecandidat(candidat.groupeCandidatId)" data-toggle="modal" data-target="#confirmDelete" class="btn btn-secondary">Supprimer</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="tab-pane" id="devices">
+          <form (submit)="onSubmit()" [formGroup]="addCandGroupForm">
+            <div class="row">
+              <div class="form-group col-12 col-lg-12">
+                <label class="is-required" for="location">Choisir un membre</label>
+                <select name="data[Post][category_id]" formControlName="candidatId" class="custom-select"
+                  id="PostCategoryId">
+                  <option selected="true" disabled="disabled" value="">Choisir un candidat</option>
+                  <option *ngFor="let candidat of allCandid" [value]="candidat.candidatId">{{candidat.candidatNom}}
+                    {{candidat.candidatPrenoms}}</option>
+                </select>
+              </div>
+              <div class="form-group col-12 col-lg-6 mb-0">
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-      <!-- Modal -->
+
+    <div class="col col-md-8 pl-lg-5" style="float: right ;">
+      <table id="myTable" class="table tablesorter table-responsive">
+        <caption>Participants </caption>
+        <thead class="cf">
+          <tr class="text-center">
+            <th class="header" scope="col">Id</th>
+            <th class="header" scope="col">Nom et prenoms</th>
+            <th class="header hide-when-small" scope="col">Code</th>
+            <th class="header" scope="col">Email</th>
+            <th class="header hide-when-small" scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let candidat of candidatByGroup">
+            <td class="alert alert-danger border-0 mb-0" *ngIf="candidat.candidat">{{candidat.candidat.candidatId}}</td>
+            <td class="align-middle" *ngIf="candidat.candidat">{{candidat.candidat.candidatNom}}
+              {{candidat.candidat.candidatPrenoms}}</td>
+            <td class="align-middle" *ngIf="candidat.candidat">{{candidat.candidat.candidatCode}}</td>
+            <td class="align-middle" *ngIf="candidat.candidat">{{candidat.candidat.candidatEmail}}</td>
+            <td class="align-middle">
+              <button *ngIf="candidat.groupeCandidatId" (click)="deletecandidat(candidat.groupeCandidatId)"
+                data-toggle="modal" data-target="#confirmDelete" class="btn btn-secondary">Supprimer</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- Modal -->
   <div class="modal fade" id="confirmDelete" role="dialog" aria-labelledby="myModalLabel" tabindex="-1">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -80,7 +87,8 @@
           </button>
         </div>
         <div class="modal-body">
-          <p>Si vous supprimer ce évènement , cela sera définitif et vous perdrez toutes les données qui y vont avec. ètes-vous sûre de vouloir supprimer?
+          <p>Si vous supprimer ce évènement , cela sera définitif et vous perdrez toutes les données qui y vont avec.
+            ètes-vous sûre de vouloir supprimer?
           </p>
         </div>
         <div class="modal-footer">
@@ -91,5 +99,8 @@
     </div>
   </div>
   <!-- fin modal -->
-    <!-- fin de la row globale-->
-  </main>
+  <!-- fin de la row globale-->
+</main>
+
+
+<app-footer></app-footer>

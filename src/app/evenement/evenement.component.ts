@@ -33,7 +33,7 @@ export class EvenementComponent implements OnInit {
   }
 
   deleteEvenement(evenementId: number) {
-    this.evenementId = evenementId ; // **stored particular Id**
+    this.evenementId = evenementId ; 
   }
   deleteOK() {
     this.eventService.deleteUsingDELETE2(this.evenementId)
