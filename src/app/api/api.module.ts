@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationInterface } from './api-configuration';
 
 import { CandidatControllerService } from './services/candidat-controller.service';
+import { CommentCandidatOrGroupeControllerService } from './services/comment-candidat-or-groupe-controller.service';
 import { CritereControllerService } from './services/critere-controller.service';
 import { EvenementControllerService } from './services/evenement-controller.service';
 import { GroupeControllerService } from './services/groupe-controller.service';
@@ -25,6 +26,7 @@ import { VotesGroupeOrCandidatControllerService } from './services/votes-groupe-
   providers: [
     ApiConfiguration,
     CandidatControllerService,
+    CommentCandidatOrGroupeControllerService,
     CritereControllerService,
     EvenementControllerService,
     GroupeControllerService,

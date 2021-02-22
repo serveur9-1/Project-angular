@@ -1,3 +1,4 @@
+import { VoteComponent } from './vote/vote.component';
 import { LoginComponent } from './login/login.component';
 import { DetailGroupeComponent } from './detail-groupe/detail-groupe.component';
 import { NgModule } from '@angular/core';
@@ -33,6 +34,7 @@ const routes: Routes = [
   { path: 'addCritere/:id', component: AddCritereComponent },
   { path: 'detailGrp/:id', component: DetailGroupeComponent },
   { path: 'login', component : LoginComponent },
+  { path: 'vote/:id', component : VoteComponent },
 
 
 ];

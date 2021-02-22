@@ -26,7 +26,8 @@
     "groupe-candidat-controller",
     "groupe-controller",
     "jury-controller",
-    "votes_groupe-or-candidat-controller"
+    "votes_groupe-or-candidat-controller",
+    "comment-candidat-or-groupe-controller"
   ],
   "timeout": 20000,
   "skipProxySetup": false

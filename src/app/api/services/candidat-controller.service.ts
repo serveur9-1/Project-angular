@@ -16,16 +16,106 @@ import { Candidats } from '../models/candidats';
   providedIn: 'root',
 })
 class CandidatControllerService extends __BaseService {
+  static readonly createOrUpdateCandidatUsingPOSTPath = '/candidat';
+  static readonly getCandidatByEventIdUsingGETPath = '/candidat/event/{evenementId}';
   static readonly getCandidatByIdUsingGETPath = '/candidat/{candidatId}';
   static readonly deleteUsingDELETEPath = '/candidat/{candidatId}';
   static readonly getAllCandidatsUsingGETPath = '/candidats';
-  static readonly createOrUpdateCandidatUsingPOSTPath = '/candidats';
 
   constructor(
     config: __Configuration,
     http: HttpClient
   ) {
     super(config, http);
+  }
+
+  /**
+   * createOrUpdateCandidat
+   * @param params The `CandidatControllerService.CreateOrUpdateCandidatUsingPOSTParams` containing the following parameters:
+   *
+   * - `file`: file
+   *
+   * - `candidat`: candidat
+   *
+   * @return OK
+   */
+  createOrUpdateCandidatUsingPOSTResponse(params: CandidatControllerService.CreateOrUpdateCandidatUsingPOSTParams): __Observable<__StrictHttpResponse<Candidats>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    let __formData = new FormData();
+    __body = __formData;
+    if (params.file != null) { __formData.append('file', params.file as string | Blob);}
+    if (params.candidat != null) __params = __params.set('candidat', params.candidat.toString());
+    let req = new HttpRequest<any>(
+      'POST',
+      this.rootUrl + `/candidat`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Candidats>;
+      })
+    );
+  }
+  /**
+   * createOrUpdateCandidat
+   * @param params The `CandidatControllerService.CreateOrUpdateCandidatUsingPOSTParams` containing the following parameters:
+   *
+   * - `file`: file
+   *
+   * - `candidat`: candidat
+   *
+   * @return OK
+   */
+  createOrUpdateCandidatUsingPOST(params: CandidatControllerService.CreateOrUpdateCandidatUsingPOSTParams): __Observable<Candidats> {
+    return this.createOrUpdateCandidatUsingPOSTResponse(params).pipe(
+      __map(_r => _r.body as Candidats)
+    );
+  }
+
+  /**
+   * getCandidatByEventId
+   * @param evenementId evenementId
+   * @return OK
+   */
+  getCandidatByEventIdUsingGETResponse(evenementId: number): __Observable<__StrictHttpResponse<Array<Candidats>>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/candidat/event/${encodeURIComponent(evenementId)}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Array<Candidats>>;
+      })
+    );
+  }
+  /**
+   * getCandidatByEventId
+   * @param evenementId evenementId
+   * @return OK
+   */
+  getCandidatByEventIdUsingGET(evenementId: number): __Observable<Array<Candidats>> {
+    return this.getCandidatByEventIdUsingGETResponse(evenementId).pipe(
+      __map(_r => _r.body as Array<Candidats>)
+    );
   }
 
   /**
@@ -138,47 +228,25 @@ class CandidatControllerService extends __BaseService {
       __map(_r => _r.body as Array<Candidats>)
     );
   }
-
-  /**
-   * createOrUpdateCandidat
-   * @param candidats candidats
-   * @return OK
-   */
-  createOrUpdateCandidatUsingPOSTResponse(candidats: Candidats): __Observable<__StrictHttpResponse<{}>> {
-    let __params = this.newParams();
-    let __headers = new HttpHeaders();
-    let __body: any = null;
-    __body = candidats;
-    let req = new HttpRequest<any>(
-      'POST',
-      this.rootUrl + `/candidats`,
-      __body,
-      {
-        headers: __headers,
-        params: __params,
-        responseType: 'json'
-      });
-
-    return this.http.request<any>(req).pipe(
-      __filter(_r => _r instanceof HttpResponse),
-      __map((_r) => {
-        return _r as __StrictHttpResponse<{}>;
-      })
-    );
-  }
-  /**
-   * createOrUpdateCandidat
-   * @param candidats candidats
-   * @return OK
-   */
-  createOrUpdateCandidatUsingPOST(candidats: Candidats): __Observable<{}> {
-    return this.createOrUpdateCandidatUsingPOSTResponse(candidats).pipe(
-      __map(_r => _r.body as {})
-    );
-  }
 }
 
 module CandidatControllerService {
+
+  /**
+   * Parameters for createOrUpdateCandidatUsingPOST
+   */
+  export interface CreateOrUpdateCandidatUsingPOSTParams {
+
+    /**
+     * file
+     */
+    file: Blob;
+
+    /**
+     * candidat
+     */
+    candidat: string;
+  }
 }
 
 export { CandidatControllerService }

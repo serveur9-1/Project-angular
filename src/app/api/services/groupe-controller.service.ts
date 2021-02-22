@@ -16,7 +16,8 @@ import { Groupes } from '../models/groupes';
   providedIn: 'root',
 })
 class GroupeControllerService extends __BaseService {
-  static readonly createOrUpdateGroupeUsingPOSTPath = '/groupe';
+  static readonly createOrUpdateGroupesUsingPOSTPath = '/groupe';
+  static readonly getGroupeByEventIDUsingGETPath = '/groupe/event/{evenementId}';
   static readonly getEvenementByIdUsingGET1Path = '/groupe/{groupeId}';
   static readonly deleteUsingDELETE4Path = '/groupe/{groupeId}';
   static readonly getAllGroupesUsingGETPath = '/groupes';
@@ -29,15 +30,23 @@ class GroupeControllerService extends __BaseService {
   }
 
   /**
-   * createOrUpdateGroupe
-   * @param groupes groupes
+   * createOrUpdateGroupes
+   * @param params The `GroupeControllerService.CreateOrUpdateGroupesUsingPOSTParams` containing the following parameters:
+   *
+   * - `groupe`: groupe
+   *
+   * - `file`: file
+   *
    * @return OK
    */
-  createOrUpdateGroupeUsingPOSTResponse(groupes: Groupes): __Observable<__StrictHttpResponse<{}>> {
+  createOrUpdateGroupesUsingPOSTResponse(params: GroupeControllerService.CreateOrUpdateGroupesUsingPOSTParams): __Observable<__StrictHttpResponse<Groupes>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
-    __body = groupes;
+    let __formData = new FormData();
+    __body = __formData;
+    if (params.groupe != null) __params = __params.set('groupe', params.groupe.toString());
+    if (params.file != null) { __formData.append('file', params.file as string | Blob);}
     let req = new HttpRequest<any>(
       'POST',
       this.rootUrl + `/groupe`,
@@ -51,18 +60,61 @@ class GroupeControllerService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<{}>;
+        return _r as __StrictHttpResponse<Groupes>;
       })
     );
   }
   /**
-   * createOrUpdateGroupe
-   * @param groupes groupes
+   * createOrUpdateGroupes
+   * @param params The `GroupeControllerService.CreateOrUpdateGroupesUsingPOSTParams` containing the following parameters:
+   *
+   * - `groupe`: groupe
+   *
+   * - `file`: file
+   *
    * @return OK
    */
-  createOrUpdateGroupeUsingPOST(groupes: Groupes): __Observable<{}> {
-    return this.createOrUpdateGroupeUsingPOSTResponse(groupes).pipe(
-      __map(_r => _r.body as {})
+  createOrUpdateGroupesUsingPOST(params: GroupeControllerService.CreateOrUpdateGroupesUsingPOSTParams): __Observable<Groupes> {
+    return this.createOrUpdateGroupesUsingPOSTResponse(params).pipe(
+      __map(_r => _r.body as Groupes)
+    );
+  }
+
+  /**
+   * getGroupeByEventID
+   * @param evenementId evenementId
+   * @return OK
+   */
+  getGroupeByEventIDUsingGETResponse(evenementId: number): __Observable<__StrictHttpResponse<Array<Groupes>>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/groupe/event/${encodeURIComponent(evenementId)}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Array<Groupes>>;
+      })
+    );
+  }
+  /**
+   * getGroupeByEventID
+   * @param evenementId evenementId
+   * @return OK
+   */
+  getGroupeByEventIDUsingGET(evenementId: number): __Observable<Array<Groupes>> {
+    return this.getGroupeByEventIDUsingGETResponse(evenementId).pipe(
+      __map(_r => _r.body as Array<Groupes>)
     );
   }
 
@@ -179,6 +231,22 @@ class GroupeControllerService extends __BaseService {
 }
 
 module GroupeControllerService {
+
+  /**
+   * Parameters for createOrUpdateGroupesUsingPOST
+   */
+  export interface CreateOrUpdateGroupesUsingPOSTParams {
+
+    /**
+     * groupe
+     */
+    groupe: string;
+
+    /**
+     * file
+     */
+    file: Blob;
+  }
 }
 
 export { GroupeControllerService }

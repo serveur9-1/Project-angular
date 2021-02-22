@@ -42,7 +42,6 @@ export class AddEventComponent implements OnInit {
   }
 
 
-
   evenFormInit() {
     this.eventForm = this.fb.group({
       evenementId: [100000],
@@ -64,20 +63,25 @@ export class AddEventComponent implements OnInit {
     formData.append('evenement',myObjStr);
     formData.append('file',this.image);
 
-    console.log('eee', formData.get('evenement'))
-    console.log('file', formData.get('file'))
-    
-    console.log('eee', evenement)
-    // this.eventService.createOrUpdateEvenementUsingPOST(formData).subscribe(
+    // this.eventService.createOrUpdateEvenementUsingPOST(JSON.stringify(formData)).subscribe(
     //   data => console.log('tttt',data)
     // )
     this.HttpClient.post<Evenement>("http://127.0.0.1:8080/evenements",formData).subscribe(
-      data => console.log(data),
+      data => {
+            if (this.evenId) {
+  
+            this.toastr.success("evenement modifié avec succès");
+  
+            } else {
+  
+            this.toastr.success("evenement ajouté avec succès");
+            this.eventForm.reset();
+            }
+          },
       error => console.error(error)
       
     )
   }
-// this.HttpClient.post<Evenement>("http://127.0.0.1:8080/evenements",evenement)
 
   onSelectFile(event: any) {
     let blobTest : any;
@@ -115,21 +119,6 @@ export class AddEventComponent implements OnInit {
       this.toastr.error("Veuillez renseigner les champs réquis");
     } else {
       this.addData();
-      // this.eventService.createOrUpdateEvenementUsingPOST(this.eventForm.value)
-      // .subscribe(
-      //   data => {
-      //     if (this.evenId) {
-
-      //     this.toastr.success("evenement modifié avec succès");
-
-      //     } else {
-
-      //     this.toastr.success("evenement ajouté avec succès");
-      //     this.eventForm.reset();
-      //     }
-      //   },
-      //   error => this.toastr.error(error.message)
-      //   );
     }
   }
 

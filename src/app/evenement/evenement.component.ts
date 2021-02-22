@@ -25,6 +25,7 @@ export class EvenementComponent implements OnInit {
 
       (res)=>{
         this.allEvents = res;
+        console.log(this.allEvents);
       },
       (error) => {
         console.error(error)

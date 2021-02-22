@@ -20,6 +20,7 @@ class CritereControllerService extends __BaseService {
   static readonly deleteUsingDELETE1Path = '/critere/{critereId}';
   static readonly getAllCriteresUsingGETPath = '/criteres';
   static readonly createOrUpdateCritereUsingPOSTPath = '/criteres';
+  static readonly getCritereByEvenementIdUsingGETPath = '/criteres/event/{evenementId}';
 
   constructor(
     config: __Configuration,
@@ -174,6 +175,44 @@ class CritereControllerService extends __BaseService {
   createOrUpdateCritereUsingPOST(criteres: Criteres): __Observable<{}> {
     return this.createOrUpdateCritereUsingPOSTResponse(criteres).pipe(
       __map(_r => _r.body as {})
+    );
+  }
+
+  /**
+   * getCritereByEvenementId
+   * @param evenementId evenementId
+   * @return OK
+   */
+  getCritereByEvenementIdUsingGETResponse(evenementId: number): __Observable<__StrictHttpResponse<Array<Criteres>>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/criteres/event/${encodeURIComponent(evenementId)}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Array<Criteres>>;
+      })
+    );
+  }
+  /**
+   * getCritereByEvenementId
+   * @param evenementId evenementId
+   * @return OK
+   */
+  getCritereByEvenementIdUsingGET(evenementId: number): __Observable<Array<Criteres>> {
+    return this.getCritereByEvenementIdUsingGETResponse(evenementId).pipe(
+      __map(_r => _r.body as Array<Criteres>)
     );
   }
 }

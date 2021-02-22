@@ -1,22 +1,21 @@
 <main role="main" id="content" class="my-5 text-center">
-    <form class="form-signin" width="200">
+    <form class="form-signin" width="200" (submit)="onSubmit()" [formGroup]="logForm" id="PostAdminEditForm">
         <img class="mb-4" src="../../assets/brand/orange_logo.svg" alt="" width="200" height="72">
 
-        <div class="card border-success mb-3" style="max-width: 18rem;">
+        <div class="card border-warning mb-3" style="max-width: 18rem;">
             <h1 class="h3 mb-3 font-weight-normal mt-4">Espace Jury</h1>
             <div class="card-body text-success">
-                <div class="form-group required">
-                    <label for="inputEmail" class="sr-only">E-mail</label>
-                    <input type="email" id="inputEmail" class="form-control" placeholder="E-mail" required autofocus>
-                </div>
-                <div class="form-group required">
-                    <label for="inputPassword" class="sr-only">Code</label>
-                    <input type="text" id="inputPassword" class="form-control" placeholder="Code" required>
-                </div>
+                <div class="form-group">
+                    <label for="PostCategoryId">Jury</label>
+                    <select name="data[Post][category_id]" formControlName="juryId" class="custom-select" id="PostCategoryId">
+                      <option selected="true" disabled="disabled" value="">Choix du jury</option>
+                      <option *ngFor="let jury of allJuries" [value]="jury.juryId">{{jury.juryNomComplet}}</option>
+                    </select>
+                  </div>
             </div>
             <div class="checkbox mb-3">
             </div>
-            <button class="btn btn-lg btn-success btn-block" type="submit">Connexion</button>
+            <button type="submit" class="btn btn-lg btn-warning btn-block" type="submit">Connexion</button>
           </div>
     </form>
 </main>

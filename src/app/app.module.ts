@@ -22,6 +22,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DetailGroupeComponent } from './detail-groupe/detail-groupe.component';
 import { LoginComponent } from './login/login.component';
+import { VoteComponent } from './vote/vote.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -42,6 +44,7 @@ import { LoginComponent } from './login/login.component';
     AddJuryComponent,
     DetailGroupeComponent,
     LoginComponent,
+    VoteComponent,
   ],
   imports: [
     ApiModule.forRoot({rootUrl: 'http://127.0.0.1:8080'}),
@@ -51,7 +54,8 @@ import { LoginComponent } from './login/login.component';
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    NgbModule
     
   ],
   providers: [],

@@ -1,10 +1,11 @@
 /* tslint:disable */
 import { Candidats } from './candidats';
+import { Criteres } from './criteres';
 import { Evenement } from './evenement';
 import { Jury } from './jury';
 export interface Vote_candidats {
   candidat?: Candidats;
-  commentaire?: string;
+  critere?: Criteres;
   evenement?: Evenement;
   jury?: Jury;
   note?: number;

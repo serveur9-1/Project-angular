@@ -7,8 +7,8 @@ import { StrictHttpResponse as __StrictHttpResponse } from '../strict-http-respo
 import { Observable as __Observable } from 'rxjs';
 import { map as __map, filter as __filter } from 'rxjs/operators';
 
-import { IParticipantService } from '../models/iparticipant-service';
 import { Evenement } from '../models/evenement';
+import { IParticipantService } from '../models/iparticipant-service';
 
 /**
  * Evenement Controller
@@ -17,6 +17,7 @@ import { Evenement } from '../models/evenement';
   providedIn: 'root',
 })
 class EvenementControllerService extends __BaseService {
+  static readonly getEvenementByJuryIdUsingGETPath = '/evenement/jury/{juryId}';
   static readonly getAllEvenementsUsingGETPath = '/evenements';
   static readonly createOrUpdateEvenementUsingPOSTPath = '/evenements';
   static readonly getEvenementByIdUsingGETPath = '/evenements/{evenementId}';
@@ -27,6 +28,44 @@ class EvenementControllerService extends __BaseService {
     http: HttpClient
   ) {
     super(config, http);
+  }
+
+  /**
+   * getEvenementByJuryId
+   * @param juryId juryId
+   * @return OK
+   */
+  getEvenementByJuryIdUsingGETResponse(juryId: number): __Observable<__StrictHttpResponse<Evenement>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/evenement/jury/${encodeURIComponent(juryId)}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Evenement>;
+      })
+    );
+  }
+  /**
+   * getEvenementByJuryId
+   * @param juryId juryId
+   * @return OK
+   */
+  getEvenementByJuryIdUsingGET(juryId: number): __Observable<Evenement> {
+    return this.getEvenementByJuryIdUsingGETResponse(juryId).pipe(
+      __map(_r => _r.body as Evenement)
+    );
   }
 
   /**

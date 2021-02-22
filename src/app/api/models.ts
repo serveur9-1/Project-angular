@@ -1,4 +1,6 @@
 export { Candidats } from './models/candidats';
+export { Comment_candidat } from './models/comment-_candidat';
+export { Comment_groupe } from './models/comment-_groupe';
 export { Criteres } from './models/criteres';
 export { Evenement } from './models/evenement';
 export { Groupe_candidats } from './models/groupe-_candidats';

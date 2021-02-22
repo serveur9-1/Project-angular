@@ -16,7 +16,8 @@
                   <img [src]="'data:image/jpeg;base64,' + candidat.candidatPhoto" alt="" class="card-img-top bg-yellow" width="416"
                     height="229" loading="lazy" />
                   <div class="card-body position-static">
-                    <div class="card-text mb-1" *ngIf="candidat.evenement"><span class="badge badge-info" style="float: right;">{{candidat.evenement.evenementNom}}</span></div>
+                    <div class="card-text mb-1" *ngIf="candidat.evenement"  style="float: right; display:inline">
+                      <span class="badge badge-info">{{candidat.evenement.evenementNom}}</span></div>
                     <div class="card-text mb-1 ">Code : {{candidat.candidatCode}}</div>
                     <div class="card-text mb-1"> Nom : {{candidat.candidatNom}} {{candidat.candidatPrenoms}}</div>
                     <div class="card-text mb-1">Email : {{candidat.candidatEmail}}</div>

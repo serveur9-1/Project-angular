@@ -18,10 +18,12 @@ import { Vote_groupes } from '../models/vote-_groupes';
 })
 class VotesGroupeOrCandidatControllerService extends __BaseService {
   static readonly createOrUpdateVoteCandidatUsingPOSTPath = '/vote_candidat';
+  static readonly getNoteCandidatByAllInfoUsingGETPath = '/vote_candidat/{evenementId}/{juryId}/{candidatId}/{critereId}';
   static readonly getVoteCandidatByIdUsingGETPath = '/vote_candidat/{voteCandidatID}';
   static readonly deleteCandidatUsingDELETEPath = '/vote_candidat/{voteCandidatID}';
   static readonly getAllVoteCandidatsUsingGETPath = '/vote_candidats';
   static readonly createOrUpdateVoteGroupeUsingPOSTPath = '/vote_groupe';
+  static readonly getNotegroupeByAllInfoUsingGETPath = '/vote_groupe/{evenementId}/{juryId}/{groupeId}/{critereId}';
   static readonly getVoteGroupeByIdUsingGETPath = '/vote_groupe/{voteGroupeID}';
   static readonly deleteGroupeUsingDELETEPath = '/vote_groupe/{voteGroupeID}';
   static readonly getAllVoteGroupesUsingGETPath = '/vote_groupes';
@@ -68,6 +70,65 @@ class VotesGroupeOrCandidatControllerService extends __BaseService {
   createOrUpdateVoteCandidatUsingPOST(voteCandidats: Vote_candidats): __Observable<{}> {
     return this.createOrUpdateVoteCandidatUsingPOSTResponse(voteCandidats).pipe(
       __map(_r => _r.body as {})
+    );
+  }
+
+  /**
+   * getNoteCandidatByAllInfo
+   * @param params The `VotesGroupeOrCandidatControllerService.GetNoteCandidatByAllInfoUsingGETParams` containing the following parameters:
+   *
+   * - `juryId`: juryId
+   *
+   * - `evenementId`: evenementId
+   *
+   * - `critereId`: critereId
+   *
+   * - `candidatId`: candidatId
+   *
+   * @return OK
+   */
+  getNoteCandidatByAllInfoUsingGETResponse(params: VotesGroupeOrCandidatControllerService.GetNoteCandidatByAllInfoUsingGETParams): __Observable<__StrictHttpResponse<Vote_candidats>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+
+
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/vote_candidat/${encodeURIComponent(params.evenementId)}/${encodeURIComponent(params.juryId)}/${encodeURIComponent(params.candidatId)}/${encodeURIComponent(params.critereId)}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Vote_candidats>;
+      })
+    );
+  }
+  /**
+   * getNoteCandidatByAllInfo
+   * @param params The `VotesGroupeOrCandidatControllerService.GetNoteCandidatByAllInfoUsingGETParams` containing the following parameters:
+   *
+   * - `juryId`: juryId
+   *
+   * - `evenementId`: evenementId
+   *
+   * - `critereId`: critereId
+   *
+   * - `candidatId`: candidatId
+   *
+   * @return OK
+   */
+  getNoteCandidatByAllInfoUsingGET(params: VotesGroupeOrCandidatControllerService.GetNoteCandidatByAllInfoUsingGETParams): __Observable<Vote_candidats> {
+    return this.getNoteCandidatByAllInfoUsingGETResponse(params).pipe(
+      __map(_r => _r.body as Vote_candidats)
     );
   }
 
@@ -221,6 +282,65 @@ class VotesGroupeOrCandidatControllerService extends __BaseService {
   }
 
   /**
+   * getNotegroupeByAllInfo
+   * @param params The `VotesGroupeOrCandidatControllerService.GetNotegroupeByAllInfoUsingGETParams` containing the following parameters:
+   *
+   * - `juryId`: juryId
+   *
+   * - `groupeId`: groupeId
+   *
+   * - `evenementId`: evenementId
+   *
+   * - `critereId`: critereId
+   *
+   * @return OK
+   */
+  getNotegroupeByAllInfoUsingGETResponse(params: VotesGroupeOrCandidatControllerService.GetNotegroupeByAllInfoUsingGETParams): __Observable<__StrictHttpResponse<Vote_groupes>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+
+
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/vote_groupe/${encodeURIComponent(params.evenementId)}/${encodeURIComponent(params.juryId)}/${encodeURIComponent(params.groupeId)}/${encodeURIComponent(params.critereId)}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Vote_groupes>;
+      })
+    );
+  }
+  /**
+   * getNotegroupeByAllInfo
+   * @param params The `VotesGroupeOrCandidatControllerService.GetNotegroupeByAllInfoUsingGETParams` containing the following parameters:
+   *
+   * - `juryId`: juryId
+   *
+   * - `groupeId`: groupeId
+   *
+   * - `evenementId`: evenementId
+   *
+   * - `critereId`: critereId
+   *
+   * @return OK
+   */
+  getNotegroupeByAllInfoUsingGET(params: VotesGroupeOrCandidatControllerService.GetNotegroupeByAllInfoUsingGETParams): __Observable<Vote_groupes> {
+    return this.getNotegroupeByAllInfoUsingGETResponse(params).pipe(
+      __map(_r => _r.body as Vote_groupes)
+    );
+  }
+
+  /**
    * getVoteGroupeById
    * @param voteGroupeID voteGroupeID
    * @return OK
@@ -333,6 +453,58 @@ class VotesGroupeOrCandidatControllerService extends __BaseService {
 }
 
 module VotesGroupeOrCandidatControllerService {
+
+  /**
+   * Parameters for getNoteCandidatByAllInfoUsingGET
+   */
+  export interface GetNoteCandidatByAllInfoUsingGETParams {
+
+    /**
+     * juryId
+     */
+    juryId: number;
+
+    /**
+     * evenementId
+     */
+    evenementId: number;
+
+    /**
+     * critereId
+     */
+    critereId: number;
+
+    /**
+     * candidatId
+     */
+    candidatId: number;
+  }
+
+  /**
+   * Parameters for getNotegroupeByAllInfoUsingGET
+   */
+  export interface GetNotegroupeByAllInfoUsingGETParams {
+
+    /**
+     * juryId
+     */
+    juryId: number;
+
+    /**
+     * groupeId
+     */
+    groupeId: number;
+
+    /**
+     * evenementId
+     */
+    evenementId: number;
+
+    /**
+     * critereId
+     */
+    critereId: number;
+  }
 }
 
 export { VotesGroupeOrCandidatControllerService }

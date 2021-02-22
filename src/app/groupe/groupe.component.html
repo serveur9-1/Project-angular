@@ -11,7 +11,7 @@
               <a routerLink="/addGroup" class="btn btn-secondary ml-auto">Ajouter un groupe</a>
             </div>
             <div class="row discovery-carousel-frame-row">
-              <div class="col-4 mt-4 mr-3" *ngFor="let groupe of allgroupes" style="width: 506px !important;">
+              <div class="col-4 col-md-4 col-lg-4 mt-4" *ngFor="let groupe of allgroupes" style="width: 506px !important;">
                 <div class="card border mr-3"  style="width: 350px !important;">
                   <img [src]="'data:image/jpeg;base64,' + groupe.groupePhoto" alt="" class="card-img-top bg-yellow" width="416"
                     height="229" loading="lazy" />

@@ -1,30 +1,32 @@
 <app-header></app-header>
 <main role="main" id="content" class="container-fluid my-5">
-  
-  <form class="row" (submit)="onSubmit()" [formGroup]="critereForm" id="PostAdminEditForm" >
+
+  <form class="row" (submit)="onSubmit()" [formGroup]="critereForm" id="PostAdminEditForm">
     <div class="col-12 col-lg-6 m-auto">
       <div class="container mb-4">
         <h1 *ngIf="!critereId; else titre">Ajout de critère</h1>
         <ng-template #titre>
-          <h1 >Modification de critère</h1>
+          <h1>Modification de critère</h1>
         </ng-template>
       </div>
       <div class="form-group required">
-        <label for="PostName" class="is-required">Barème</label>
-        <input name="data[Post][titre]" formControlName="critereBareme" class="form-control" maxlength="255" type="text" id="PostName" required="required" aria-required="true">
+        <label for="PostName" class="is-required">Libélé</label>
+        <input name="data[Post][titre]" formControlName="critereLibelle" class="form-control" maxlength="255"
+          type="text" id="PostName" required="required" aria-required="true">
       </div>
       <div class="form-group required">
-          <label for="PostName" class="is-required">Libélé</label>
-          <input name="data[Post][titre]" formControlName="critereLibelle" class="form-control" maxlength="255" type="text" id="PostName" required="required" aria-required="true">
-        </div>
-      <div class="form-group">
-          <label for="PostCategoryId">Evènement</label>
-          <select name="data[Post][category_id]"  formControlName="evenementId" class="custom-select" id="PostCategoryId">
-            <option selected="true" disabled="disabled" value="">Choix d'évènement</option>
-            <option *ngFor="let event of allEvents" [value]="event.evenement_id">{{event.evenement_nom}}</option>
-          </select>
+        <label for="PostName" class="is-required">Barème</label>
+        <input name="data[Post][titre]" formControlName="critereBareme" class="form-control" maxlength="255" type="text"
+          id="PostName" required="required" aria-required="true">
       </div>
-     
+      <div class="form-group">
+        <label for="PostCategoryId">Evènement</label>
+        <select name="data[Post][category_id]" formControlName="evenementId" class="custom-select" id="PostCategoryId">
+          <option selected="true" disabled="disabled" value="">Choix d'évènement</option>
+          <option *ngFor="let event of allEvents" [value]="event.evenement_id">{{event.evenement_nom}}</option>
+        </select>
+      </div>
+
       <button type="submit" class="btn btn-primary float-right" *ngIf="!critereId; else add">Créer Critère</button>
       <ng-template #add>
         <button type="submit" class="btn btn-primary float-right">Modifier critère</button>

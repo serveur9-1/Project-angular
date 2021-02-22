@@ -1,4 +1,5 @@
 export { CandidatControllerService } from './services/candidat-controller.service';
+export { CommentCandidatOrGroupeControllerService } from './services/comment-candidat-or-groupe-controller.service';
 export { CritereControllerService } from './services/critere-controller.service';
 export { EvenementControllerService } from './services/evenement-controller.service';
 export { GroupeControllerService } from './services/groupe-controller.service';
