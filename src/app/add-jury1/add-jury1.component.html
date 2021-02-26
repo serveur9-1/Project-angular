@@ -4,7 +4,7 @@
   <form class="row" (submit)="onSubmit()" [formGroup]="juryForm" id="PostAdminEditForm">
     <div class="col-12 col-lg-6 m-auto">
       <div class="container mb-4">
-          <h1>Modification de jury</h1>
+        <h1 >Ajout de jury</h1>
       </div>
       <div class="form-group required">
         <label for="PostName" class="is-required">Code</label>
@@ -26,15 +26,8 @@
         <input name="data[Post][titre]" formControlName="juryTelephone" class="form-control" maxlength="255" type="text"
           id="PostName" required="required" aria-required="true">
       </div>
-      <div class="form-group" *ngIf="!juryId">
-        <label for="PostCategoryId">Evènement</label>
-        <select name="data[Post][category_id]" formControlName="evenementId" class="custom-select" id="PostCategoryId">
-          <option selected="true" disabled="disabled" value="">Choix d'évènement</option>
-          <option *ngFor="let event of allEvents" [value]="event.evenement_id">{{event.evenement_nom}}</option>
-        </select>
-      </div>
 
-        <button type="submit" class="btn btn-primary float-right">Modifier le jury</button>
+      <button type="submit" class="btn btn-primary float-right">Créer Jury</button>
     </div>
   </form>
 </main>

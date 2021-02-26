@@ -14,7 +14,7 @@
               <div class="col-4 mt-4" *ngFor="let candidat of allCandidats" style="width: 536px !important;">
                 <div class="card border mr-3" style="width: 350px !important;">
                   <img [src]="'data:image/jpeg;base64,' + candidat.candidatPhoto" alt="" class="card-img-top bg-yellow" width="416"
-                    height="229" loading="lazy" />
+                    height="229" style="object-fit: contain;" loading="lazy" />
                   <div class="card-body position-static">
                     <div class="card-text mb-1" *ngIf="candidat.evenement"  style="float: right; display:inline">
                       <span class="badge badge-info">{{candidat.evenement.evenementNom}}</span></div>

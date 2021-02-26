@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Evenement, Jury } from '../api/models';
-import { EvenementControllerService, JuryControllerService } from '../api/services';
+import { JuryControllerService } from '../api/services';
 
 @Component({
   selector: 'app-login',
@@ -12,43 +11,38 @@ import { EvenementControllerService, JuryControllerService } from '../api/servic
 })
 export class LoginComponent implements OnInit {
 
-  allJuries:any[] = [];
   submitted =false;
   logForm!: FormGroup;
 
   constructor(private juryService : JuryControllerService,private toastr: ToastrService, private fb: FormBuilder, private router: ActivatedRoute,private route: Router) { }
 
   ngOnInit(): void {
-    this.reloadData();
     this.loginForm();
 
-  }
-  reloadData(){
-
-    this.juryService.getAllJuriesUsingGET().subscribe(
-
-      (res)=>{
-        this.allJuries = res;
-      },
-      (error) => {
-        console.error(error)
-      }
-    )
   }
 
   loginForm() {
     this.logForm = this.fb.group({
-      juryId: ["", Validators.required],
+      juryTelephone: ["", Validators.required],
     })
   }
 
   onSubmit() {
 
     if (!this.logForm.valid) {
-      this.toastr.error("Veuillez choisir un jury");
+      this.toastr.error("Veuillez renseigner un numéro valide");
     } else {
-      console.log(this.logForm.value.juryId);
-      this.route.navigate(['/vote',this.logForm.value.juryId]);
+      this.juryService.getJuryByNumberUsingGET(this.logForm.value.juryTelephone).subscribe(
+        data => {
+          if (data) {
+            this.route.navigate(['/vote',data]);
+           
+          } else {
+            this.toastr.error("Vous n'existez pas , alors vous ne pouvez pas voter");
+          }},
+        error => console.log(error),
+      )
+      
     }
   }
 

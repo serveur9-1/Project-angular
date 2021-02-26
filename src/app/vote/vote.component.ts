@@ -208,6 +208,34 @@ export class VoteComponent implements OnInit {
 
   }
 
+  noteFormInit() {
+
+    this.type = this.events.evenementType;
+    this.juryId = this.router.snapshot.params.id;
+    if (this.type == "Groupe") {
+
+      this.noteForm = this.fb.group({
+        voteGroupeId: [100000],
+        note: ["", Validators.required],
+        groupeId: this.groupId,
+        juryId: this.juryId,
+        evenementId: this.events.evenementId,
+        critereId: this.critereId,
+
+      })
+    } else {
+      this.noteForm = this.fb.group({
+        voteCandidatId: [100000],
+        note: ["", Validators.required],
+        candidatId: this.candidId,
+        juryId: this.juryId,
+        evenementId: this.events.evenementId,
+        critereId: this.critereId,
+      })
+    }
+
+  }
+
 
   noteForm1() {
     this.juryId = parseInt(this.router.snapshot.params.id);
@@ -231,7 +259,8 @@ export class VoteComponent implements OnInit {
       } else {
 
         this.HttpClient.get<Vote_candidats>("http://127.0.0.1:8080/vote_candidat/" + this.events.evenementId + "/" + this.juryId + "/" + this.candidId + "/" + this.critereId).subscribe(
-          data => this.noteForm = this.fb.group({
+          data => 
+          this.noteForm = this.fb.group({
             voteCandidatId: data.voteCandidatId,
             note: data.note,
             candidatId: data.candidat?.candidatId,
@@ -255,33 +284,7 @@ export class VoteComponent implements OnInit {
 
   }
 
-  noteFormInit() {
-
-    this.type = this.events.evenementType;
-    this.juryId = this.router.snapshot.params.id;
-    if (this.type == "Groupe") {
-
-      this.noteForm = this.fb.group({
-        voteGroupeId: [100000],
-        note: ["", Validators.required],
-        groupeId: this.groupId,
-        juryId: this.juryId,
-        evenementId: this.events.evenementId,
-        critereId: this.critereId,
-
-      })
-    } else {
-      this.noteForm = this.fb.group({
-        voteCandidatId: [100000],
-        note1: ["", Validators.required],
-        candidatId: this.candidId,
-        juryId: this.juryId,
-        evenementId: this.events.evenementId,
-        critereId: this.critereId,
-      })
-    }
-
-  }
+ 
 
   onSubmitComment() {
     
@@ -320,7 +323,7 @@ export class VoteComponent implements OnInit {
     this.critereId = critereId;
 
     note = (note * critereBareme) / 5;
-    console.log(this.noteForm);
+    console.log(this.noteForm.value);
     if (this.events.evenementType == "Groupe") {
       this.commentCandidatOrGroupeService.createOrUpdateCommentGroupeUsingPOST({
         ...this.noteForm.value,

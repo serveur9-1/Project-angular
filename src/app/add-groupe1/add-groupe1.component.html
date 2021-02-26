@@ -1,0 +1,34 @@
+<app-header></app-header>
+<main role="main" id="content" class="container-fluid my-5">
+
+  <form class="row" (submit)="onSubmit()" [formGroup]="groupForm" id="PostAdminEditForm">
+    <div class="col-12 col-lg-6 m-auto">
+      <div class="container mb-4">
+        <h1 >Ajout de groupe</h1>
+      </div>
+      <div class="form-group required">
+        <label for="PostName" class="is-required">Code</label>
+        <input name="data[Post][titre]" formControlName="groupeCode" class="form-control" maxlength="255" type="text"
+          id="PostName" required="required" aria-required="true">
+      </div>
+      <div class="form-group required">
+        <label for="Name" class="is-required">Nom</label>
+        <input name="data[Post][Name]" formControlName="groupeNom" class="form-control" maxlength="255" type="Name"
+          id="Name" required="required" aria-required="true">
+      </div>
+      <div class="input-group mb-3">
+        <div class="custom-file">
+          <input type="file" accept="image/*" (change)="onSelectFile($event)" class="custom-file-input"
+            id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+          <label class="custom-file-label" for="inputGroupFile01">Choisir un fichier</label>
+        </div>
+      </div>
+      <div class="form-group required mt-3">
+        <img [src]="imgURL" alt="" *ngIf="imgURL" style="width: 150px;height: 150px;">
+      </div>
+      <button type="submit" class="btn btn-primary float-right" >Créer groupe</button>
+    </div>
+  </form>
+</main>
+
+<app-footer></app-footer>

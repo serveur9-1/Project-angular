@@ -1,18 +1,18 @@
-import { Candidats } from './../api/models/candidats';
-import { IParticipantService } from './../api/models/iparticipant-service';
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { CandidatControllerService, EvenementControllerService } from '../api/services';
 import { ActivatedRoute } from '@angular/router';
+import { Candidats } from './../api/models/candidats';
+import { IParticipantService } from './../api/models/iparticipant-service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-add-candidat',
-  templateUrl: './add-candidat.component.html',
-  styleUrls: ['./add-candidat.component.css']
+  selector: 'app-add-candidat1',
+  templateUrl: './add-candidat1.component.html',
+  styleUrls: ['./add-candidat1.component.css']
 })
-export class AddCandidatComponent implements OnInit {
+export class AddCandidat1Component implements OnInit {
 
   allEvents : IParticipantService[] = [];
   candidatForm!: FormGroup;
@@ -23,32 +23,13 @@ export class AddCandidatComponent implements OnInit {
   imgURL: any;
   message: string | undefined;
   image: any;
+  eventId!: number;
 
   constructor(private candidatService : CandidatControllerService,private eventService: EvenementControllerService,private toastr: ToastrService, private fb: FormBuilder, private router: ActivatedRoute, private HttpClient: HttpClient) { }
 
-  get f() {
-    return this.candidatForm.controls;
-  }
   ngOnInit(): void {
-    this.reloadData();
+
     this.candidForm();
-    this.candidId = this.router.snapshot.params.id;
-    if(this.candidId){
-      this.candidatService.getCandidatByIdUsingGET(this.candidId).subscribe(
-        data => this.candidatForm = this.fb.group({
-          candidatId : data.candidatId,
-          candidatCode : data.candidatCode,
-          candidatEmail : data.candidatEmail,
-          candidatNom : data.candidatNom,
-          candidatTelephone : data.candidatTelephone,
-          candidatPrenoms : data.candidatPrenoms,
-          evenementId : data.evenement?.evenementId,
-        }),
-        error => console.log(error)
-      )
-    } 
-    
-   
   }
 
   candidForm(){
@@ -60,29 +41,14 @@ export class AddCandidatComponent implements OnInit {
       candidatPhoto : [],
       candidatTelephone : ["", Validators.required],
       candidatPrenoms : ["", Validators.required],
-      evenementId : ["", Validators.required],
     })
   }
 
-  reloadData(){
-
-    this.eventService.getAllEvenementsUsingGET().subscribe(
-
-      (res)=>{
-        this.allEvents = res;
-      },
-      (error) => {
-        console.error(error)
-      }
-    )
-  }
-
   addData() {
-
+    this.eventId = this.router.snapshot.params.id;
     const formData: any = new FormData();
-    const candidat =  {...this.candidatForm.value, evenement: {evenementId:this.candidatForm.value.evenementId}}
+    const candidat =  {...this.candidatForm.value, evenement: {evenementId:this.eventId}}
     delete candidat.candidatPhoto;
-    delete candidat.evenementId;
     const myObjStr = JSON.stringify(candidat);
 
     formData.append('candidat', myObjStr);
@@ -94,7 +60,9 @@ export class AddCandidatComponent implements OnInit {
     // )
     this.HttpClient.post<Candidats>("http://127.0.0.1:8080/candidat", formData).subscribe(
       data => {
-          this.toastr.success("candidat modifié avec succès");
+          this.toastr.success("candidat ajouté avec succès");
+          console.log('lololo',data.candidatId);
+          this.candidatForm.reset();
       },
       error => console.error(error)
 

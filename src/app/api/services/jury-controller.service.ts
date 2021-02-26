@@ -18,6 +18,8 @@ import { Jury } from '../models/jury';
 class JuryControllerService extends __BaseService {
   static readonly getAllJuriesUsingGETPath = '/juries';
   static readonly createOrUpdateJuryUsingPOSTPath = '/jury';
+  static readonly getJuryByEventIdUsingGETPath = '/jury/event/{evenementId}';
+  static readonly getJuryByNumberUsingGETPath = '/jury/number/{number}';
   static readonly getJuryByIdUsingGETPath = '/jury/{juryId}';
   static readonly deleteUsingDELETE5Path = '/jury/{juryId}';
 
@@ -98,6 +100,82 @@ class JuryControllerService extends __BaseService {
   createOrUpdateJuryUsingPOST(jury: Jury): __Observable<{}> {
     return this.createOrUpdateJuryUsingPOSTResponse(jury).pipe(
       __map(_r => _r.body as {})
+    );
+  }
+
+  /**
+   * getJuryByEventId
+   * @param evenementId evenementId
+   * @return OK
+   */
+  getJuryByEventIdUsingGETResponse(evenementId: number): __Observable<__StrictHttpResponse<Array<Jury>>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/jury/event/${encodeURIComponent(evenementId)}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Array<Jury>>;
+      })
+    );
+  }
+  /**
+   * getJuryByEventId
+   * @param evenementId evenementId
+   * @return OK
+   */
+  getJuryByEventIdUsingGET(evenementId: number): __Observable<Array<Jury>> {
+    return this.getJuryByEventIdUsingGETResponse(evenementId).pipe(
+      __map(_r => _r.body as Array<Jury>)
+    );
+  }
+
+  /**
+   * getJuryByNumber
+   * @param number number
+   * @return OK
+   */
+  getJuryByNumberUsingGETResponse(number: number): __Observable<__StrictHttpResponse<number>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/jury/number/${encodeURIComponent(number)}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'text'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return (_r as HttpResponse<any>).clone({ body: parseFloat((_r as HttpResponse<any>).body as string) }) as __StrictHttpResponse<number>
+      })
+    );
+  }
+  /**
+   * getJuryByNumber
+   * @param number number
+   * @return OK
+   */
+  getJuryByNumberUsingGET(number: number): __Observable<number> {
+    return this.getJuryByNumberUsingGETResponse(number).pipe(
+      __map(_r => _r.body as number)
     );
   }
 

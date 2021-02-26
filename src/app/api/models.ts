@@ -9,3 +9,5 @@ export { IParticipantService } from './models/iparticipant-service';
 export { Jury } from './models/jury';
 export { Vote_candidats } from './models/vote-_candidats';
 export { Vote_groupes } from './models/vote-_groupes';
+export { ResultGroupeByEvent } from './models/result-groupe-by-event';
+export { ResultatByEvent } from './models/resultat-by-event';

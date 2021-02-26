@@ -1,0 +1,362 @@
+<app-header></app-header>
+<main role="main" id="content" class="container-fluid my-5">
+  <div class="row mb-5">
+    <div class="col col-md-12">
+      <div class="col-md-5" style="float: left;">
+        <div class="card mb-3">
+          <div class="row no-gutters">
+            <div class="col-md-4">
+              <img style="height: 100%; width: 100%; object-fit: contain"
+                [src]="'data:image/jpeg;base64,' + event?.evenementPhoto" alt="...">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body position-static">
+                <div class="card-text mb-1"> <span class="badge badge-info"
+                    style="float: right;">{{event?.evenementType}}</span></div>
+                <h3 class="card-title mb-3">{{event?.evenementNom}}</h3>
+                <div class="card-text mb-3" lang="zxx">
+                  <div class="mt-3">
+                    <div class="col-md-12">Début : {{event?.evenementDateDebut}} </div>
+                    <div class="col-md-12 mt-4">Fin : {{event?.evenementDateFin}} </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 mt-4" style="float: right;">
+        <ul class="nav nav-tabs">
+          <li class="nav-item" *ngIf="event.evenementType == 'Groupe';else indiv"><a class="nav-link active" href="#groupe"
+              data-toggle="tab">groupes</a></li>
+          <ng-template #indiv>
+            <li class="nav-item"><a class="nav-link active" href="#candidat" data-toggle="tab">Candidats</a></li>
+          </ng-template>
+          <li class="nav-item"><a class="nav-link " href="#critere" data-toggle="tab">Critères</a></li>
+          <li class="nav-item"><a class="nav-link" href="#jury" data-toggle="tab">Jurys</a></li>
+
+          <li class="nav-item" *ngIf="event.evenementType == 'Groupe';else individ"><a class="nav-link"
+              href="#resultGroupe" data-toggle="tab">Résultat</a></li>
+          <ng-template #individ>
+            <li class="nav-item"><a class="nav-link" href="#resultCandidat" data-toggle="tab">Résultat</a></li>
+          </ng-template>
+
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane" id="critere">
+            <div class="container-fluid">
+              <h1>Nos Critères</h1>
+            </div>
+
+            <div class="container-fluid">
+              <table id="news-table" class="table tablesorter mb-5">
+                <caption>
+                  <a [routerLink]="['/addCritere', event.evenementId]"
+                    class="btn btn-sm btn-secondary ml-3 float-right">Ajouter critère</a>
+                </caption>
+                <thead class="cf">
+                  <tr>
+                    <th scope="col" class="header">ID</th>
+                    <th scope="col" class="header">Barème</th>
+                    <th scope="col" class="header">Libéllé</th>
+                    <th scope="col" class="header">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let critere of allCriteres;let i = index">
+                    <td class="align-middle">{{i+1}}</td>
+                    <td class="align-middle">/{{critere.critereBareme}}</td>
+                    <td class="align-middle">{{critere.critereLibelle}}</td>
+                    <td class="align-middle">
+                      <a [routerLink]="['/editCritere', critere.critereId]" class="btn btn-primary mr-3">Modifier</a>
+                      <button *ngIf="critere.critereId" (click)="deleteCritere(critere.critereId)" data-toggle="modal"
+                        data-target="#confirmDelete" class="btn btn-secondary">Supprimer</button>
+                    </td>
+                    <!-- Modal -->
+                    <div class="modal fade" id="confirmDelete" role="dialog" aria-labelledby="myModalLabel"
+                      tabindex="-1">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h2 class="modal-title h4" id="myModalLabel">Confirm deletion</h2>
+                            <!-- Boosted mod: using visually hidden text instead of aria-label -->
+                            <button type="button" class="close" data-dismiss="modal">
+                              <span class="sr-only">Close confirmation modal</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <p>Si vous supprimer ce critère , cela sera définitif. ètes-vous
+                              sûre de vouloir supprimer?</p>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Retour</button>
+                            <button type="button" (click)="deleteOK1()" class="btn btn-primary"
+                              data-dismiss="modal">Supprimer</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- fin modal -->
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="tab-pane" id="jury">
+            <div class="container-fluid">
+              <h1>Nos juries</h1>
+            </div>
+
+
+            <div class="container-fluid">
+              <table id="news-table" class="table tablesorter mb-5">
+                <caption>
+                  <a [routerLink]="['/addJury', event.evenementId]"
+                    class="btn btn-sm btn-secondary ml-3 float-right">Ajouter jury</a>
+                </caption>
+                <thead class="cf">
+                  <tr>
+                    <th scope="col" class="header">ID</th>
+                    <th scope="col" class="header">Code</th>
+                    <th scope="col" class="header">Email</th>
+                    <th scope="col" class="header">Nom et prenoms</th>
+                    <th scope="col" class="header">Teléphone</th>
+                    <th scope="col" class="header">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let jury of allJuries">
+                    <td class="align-middle">{{jury.juryId}}</td>
+                    <td class="align-middle">{{jury.juryCode}}</td>
+                    <td class="align-middle">{{jury.juryEmail}}</td>
+                    <td class="align-middle">{{jury.juryNomComplet}}</td>
+                    <td class="align-middle">{{jury.juryTelephone}}</td>
+                    <td class="align-middle">
+                      <a [routerLink]="['/editJury', jury.juryId]" class="btn btn-primary mr-2">Modifier</a>
+                      <button *ngIf="jury.juryId" (click)="deleteJury(jury.juryId)" data-toggle="modal"
+                        data-target="#confirmDelete" class="btn btn-secondary">Supprimer</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <!-- Modal -->
+              <div class="modal fade" id="confirmDelete" role="dialog" aria-labelledby="myModalLabel" tabindex="-1">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h2 class="modal-title h4" id="myModalLabel">Confirm deletion</h2>
+                      <!-- Boosted mod: using visually hidden text instead of aria-label -->
+                      <button type="button" class="close" data-dismiss="modal">
+                        <span class="sr-only">Close confirmation modal</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <p>Si vous supprimer ce jury , cela sera définitif. ètes-vous sûre de vouloir
+                        supprimer?</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Retour</button>
+                      <button type="button" (click)="deleteOK()" class="btn btn-primary"
+                        data-dismiss="modal">Supprimer</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- fin modal -->
+            </div>
+          </div>
+          <div class="tab-pane active" id="groupe">
+            <div class="bg-light pt-5 pb-3">
+              <div class="container">
+                <div class="swiper-container">
+                  <div class="swiper-wrapper">
+                    <div>
+                      <!-- Header title + link to see all -->
+                      <div class="d-flex mb-3">
+                        <h2 class="m-0">Liste des groupes</h2>
+                        <a [routerLink]="['/addGroup', event.evenementId]" class="btn btn-secondary ml-auto">Ajouter un
+                          groupe</a>
+                      </div>
+                      <div class="row discovery-carousel-frame-row">
+                        <div class="col-4 col-md-4 col-lg-4 mt-4" *ngFor="let groupe of allgroupes"
+                          style="width: 506px !important;">
+                          <div class="card border mr-3" style="width: 350px !important;">
+                            <a [routerLink]="['/detailGrp', groupe.groupeId]"><img
+                                [src]="'data:image/jpeg;base64,' + groupe.groupePhoto" alt=""
+                                class="card-img-top bg-yellow" width="416" height="229" style="object-fit: contain;"
+                                loading="lazy" /></a>
+                            <div class="card-body position-static">
+                              <a [routerLink]="['/detailGrp', groupe.groupeId]" style="text-decoration: none;">
+                                <div class="card-text mb-2" style="font-size: 25px;font-weight:bold;">
+                                  {{groupe.groupeNom}}</div>
+                              </a>
+                              <div class="card-text mb-1 ">Code : {{groupe.groupeCode}}</div>
+
+                              <div>
+                                <a [routerLink]="['/editGroup', groupe.groupeId]"
+                                  class="btn btn-primary mt-3 float-left">Modifier</a>
+                                <button *ngIf="groupe.groupeId" (click)="deleteGroupe(groupe.groupeId)"
+                                  data-toggle="modal" data-target="#confirmDeleteGroupe"
+                                  class="btn btn-secondary mt-3 float-right">Supprimer</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="confirmDeleteGroupe" role="dialog" aria-labelledby="myModalLabel" tabindex="-1">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h2 class="modal-title h4" id="myModalLabel">Confirm deletion</h2>
+                    <!-- Boosted mod: using visually hidden text instead of aria-label -->
+                    <button type="button" class="close" data-dismiss="modal">
+                      <span class="sr-only">Close confirmation modal</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <p>Si vous supprimer ce jury , cela sera définitif. ètes-vous sûre de vouloir supprimer?</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Retour</button>
+                    <button type="button" (click)="deleteGroupeOK()" class="btn btn-primary"
+                      data-dismiss="modal">Supprimer</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- fin modal -->
+          </div>
+          <div class="tab-pane active" id="candidat">
+            <div class="bg-light pt-5 pb-3">
+              <div class="container">
+                <div class="swiper-container">
+                  <div class="swiper-wrapper">
+                    <div>
+                      <!-- Header title + link to see all -->
+                      <div class="d-flex mb-3">
+                        <h2 class="m-0">Liste des Candidats</h2>
+                        <a [routerLink]="['/addCandidat', event.evenementId]" class="btn btn-secondary ml-auto"
+                          style="float: right;">Ajouter Candidat</a>
+                      </div>
+                      <div class="row discovery-carousel-frame-row">
+                        <div class="col-4 mt-4" *ngFor="let candidat of allCandidats" style="width: 536px !important;">
+                          <div class="card border mr-3" style="width: 350px !important;">
+                            <img [src]="'data:image/jpeg;base64,' + candidat.candidatPhoto" alt=""
+                              class="card-img-top bg-yellow" width="416" height="229" style="object-fit: contain;"
+                              loading="lazy" />
+                            <div class="card-body position-static">
+                              <div class="card-text mb-1 ">Code : {{candidat.candidatCode}}</div>
+                              <div class="card-text mb-1"> Nom : {{candidat.candidatNom}} {{candidat.candidatPrenoms}}
+                              </div>
+                              <div class="card-text mb-1">Email : {{candidat.candidatEmail}}</div>
+                              <div class="card-text mb-1">Tel : {{candidat.candidatTelephone}}</div>
+                              <div>
+                                <a [routerLink]="['/editCandidat', candidat.candidatId]"
+                                  class="btn btn-primary mt-3 float-left">Modifier</a>
+                                <button *ngIf="candidat.candidatId" (click)="deleteCandidat(candidat.candidatId)"
+                                  data-toggle="modal" data-target="#confirmDeletecandid"
+                                  class="btn btn-secondary mt-3 float-right">Supprimer</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="confirmDeletecandid" role="dialog" aria-labelledby="myModalLabel" tabindex="-1">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h2 class="modal-title h4" id="myModalLabel">Confirmation deletion</h2>
+                    <!-- Boosted mod: using visually hidden text instead of aria-label -->
+                    <button type="button" class="close" data-dismiss="modal">
+                      <span class="sr-only">Close confirmation modal</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <p>Si vous supprimer ce candidat , cela sera définitif. ètes-vous sûre de vouloir supprimer?
+                    </p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Retour</button>
+                    <button type="button" (click)="deleteCandidOK()" class="btn btn-primary"
+                      data-dismiss="modal">Supprimer</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- fin modal -->
+          </div>
+          <div class="tab-pane" id="resultGroupe">
+            <div class="container-fluid">
+              <h1>Résultat du groupe</h1>
+            </div>
+
+
+            <div class="container-fluid">
+              <table id="news-table" class="table tablesorter mb-5">
+                <thead class="cf">
+                  <tr>
+                    <th scope="col" class="header">Rang</th>
+                    <th scope="col" class="header">Nom du groupe</th>
+                    <th scope="col" class="header">Moyenne</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let resultG of resultGroupes;let i =index">
+                    <td class="align-middle">{{i+1}}</td>
+                    <td class="align-middle">{{resultG.groupe_nom}}</td>
+                    <td class="align-middle">{{resultG.moyenne}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="tab-pane" id="resultCandidat">
+            <div class="container-fluid">
+              <h1>Résultat des candidats</h1>
+            </div>
+
+
+            <div class="container-fluid">
+              <table id="news-table" class="table tablesorter mb-5">
+                <thead class="cf">
+                  <tr>
+                    <th scope="col" class="header">Rang</th>
+                    <th scope="col" class="header">Nom</th>
+                    <th scope="col" class="header">Prenoms</th>
+                    <th scope="col" class="header">Moyenne</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let resultC of resultCandidats ; let i =index">
+                    <td class="align-middle">{{i+1}}</td>
+                    <td class="align-middle">{{resultC.candidat_nom}}</td>
+                    <td class="align-middle">{{resultC.candidat_prenoms}}</td>
+                    <td class="align-middle">{{resultC.moyenne}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- fin de la row globale-->
+</main>
+<app-footer></app-footer>

@@ -153,15 +153,12 @@
                                     <td class="align-middle" width=50%>{{critere.critereLibelle}}</td>
                                     <td class="align-middle" width=50% *ngIf="critere.critereId">
                                         <form (ngSubmit)="onSubmitNote(critere.critereId, critere.critereBareme,currentRate[i])" [formGroup]="noteForm">
-                                            <ngb-rating formControlName="note1" [readonly]="false"
+                                            <ngb-rating formControlName="note" [readonly]="false"
                                                 *ngIf="critere.critereId" [(rate)]="currentRate[i]" value="5" [max]="5">
                                                 <ng-template let-fill="fill" let-index="index">
                                                     <span class="star" [class.filled]="fill === 100">&#9733;</span>
                                                 </ng-template>
                                             </ngb-rating>
-                                            <button type="submit" *ngIf="critere.critereId" (click)="critereGet(critere.critereId)" class="btn btn-secondary " >
-                                                envoi
-                                            </button>
                                         </form>
                                     </td>
                                 </tr>

@@ -5,13 +5,11 @@
         <div class="card border-warning mb-3" style="max-width: 18rem;">
             <h1 class="h3 mb-3 font-weight-normal mt-4">Espace Jury</h1>
             <div class="card-body text-success">
-                <div class="form-group">
-                    <label for="PostCategoryId">Jury</label>
-                    <select name="data[Post][category_id]" formControlName="juryId" class="custom-select" id="PostCategoryId">
-                      <option selected="true" disabled="disabled" value="">Choix du jury</option>
-                      <option *ngFor="let jury of allJuries" [value]="jury.juryId">{{jury.juryNomComplet}}</option>
-                    </select>
-                  </div>
+              <div class="form-group required">
+                <label for="PostName" class="is-required">Numéro de Téléphone</label>
+                <input name="data[Post][titre]" formControlName="juryTelephone" class="form-control" maxlength="255" type="number"
+                  id="PostName" required="required" aria-required="true">
+              </div>
             </div>
             <div class="checkbox mb-3">
             </div>

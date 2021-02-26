@@ -7,6 +7,8 @@ import { StrictHttpResponse as __StrictHttpResponse } from '../strict-http-respo
 import { Observable as __Observable } from 'rxjs';
 import { map as __map, filter as __filter } from 'rxjs/operators';
 
+import { ResultatByEvent } from '../models/resultat-by-event';
+import { ResultGroupeByEvent } from '../models/result-groupe-by-event';
 import { Vote_candidats } from '../models/vote-_candidats';
 import { Vote_groupes } from '../models/vote-_groupes';
 
@@ -17,6 +19,8 @@ import { Vote_groupes } from '../models/vote-_groupes';
   providedIn: 'root',
 })
 class VotesGroupeOrCandidatControllerService extends __BaseService {
+  static readonly getResultatUsingGETPath = '/resultat/{eventId}';
+  static readonly getResultgroupByEventUsingGETPath = '/resultatGroupe/{eventId}';
   static readonly createOrUpdateVoteCandidatUsingPOSTPath = '/vote_candidat';
   static readonly getNoteCandidatByAllInfoUsingGETPath = '/vote_candidat/{evenementId}/{juryId}/{candidatId}/{critereId}';
   static readonly getVoteCandidatByIdUsingGETPath = '/vote_candidat/{voteCandidatID}';
@@ -33,6 +37,82 @@ class VotesGroupeOrCandidatControllerService extends __BaseService {
     http: HttpClient
   ) {
     super(config, http);
+  }
+
+  /**
+   * getResultat
+   * @param eventId eventId
+   * @return OK
+   */
+  getResultatUsingGETResponse(eventId: number): __Observable<__StrictHttpResponse<Array<ResultatByEvent>>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/resultat/${encodeURIComponent(eventId)}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Array<ResultatByEvent>>;
+      })
+    );
+  }
+  /**
+   * getResultat
+   * @param eventId eventId
+   * @return OK
+   */
+  getResultatUsingGET(eventId: number): __Observable<Array<ResultatByEvent>> {
+    return this.getResultatUsingGETResponse(eventId).pipe(
+      __map(_r => _r.body as Array<ResultatByEvent>)
+    );
+  }
+
+  /**
+   * getResultgroupByEvent
+   * @param eventId eventId
+   * @return OK
+   */
+  getResultgroupByEventUsingGETResponse(eventId: number): __Observable<__StrictHttpResponse<Array<ResultGroupeByEvent>>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/resultatGroupe/${encodeURIComponent(eventId)}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Array<ResultGroupeByEvent>>;
+      })
+    );
+  }
+  /**
+   * getResultgroupByEvent
+   * @param eventId eventId
+   * @return OK
+   */
+  getResultgroupByEventUsingGET(eventId: number): __Observable<Array<ResultGroupeByEvent>> {
+    return this.getResultgroupByEventUsingGETResponse(eventId).pipe(
+      __map(_r => _r.body as Array<ResultGroupeByEvent>)
+    );
   }
 
   /**
