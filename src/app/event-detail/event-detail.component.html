@@ -5,36 +5,35 @@
       <div class="col-md-5" style="float: left;">
         <div class="card mb-3">
           <div class="row no-gutters">
-            <div class="col-md-4">
-              <img style="height: 100%; width: 100%; object-fit: contain"
-                [src]="'data:image/jpeg;base64,' + event?.evenementPhoto" alt="...">
-            </div>
-            <div class="col-md-8">
-              <div class="card-body position-static">
-                <div class="card-text mb-1"> <span class="badge badge-info"
-                    style="float: right;">{{event?.evenementType}}</span></div>
-                <h3 class="card-title mb-3">{{event?.evenementNom}}</h3>
-                <div class="card-text mb-3" lang="zxx">
-                  <div class="mt-3">
-                    <div class="col-md-12">Début : {{event?.evenementDateDebut}} </div>
-                    <div class="col-md-12 mt-4">Fin : {{event?.evenementDateFin}} </div>
-                  </div>
-                </div>
+              <div class="col-md-4">
+                  <img style="height: 100%; width: 100%; object-fit: contain"
+                      [src]="'data:image/jpeg;base64,' + event?.evenementPhoto" alt="...">
               </div>
-            </div>
+              <div class="col-md-8">
+                  <div class="card-body position-static">
+                      <div class="card-text mb-1"> <span class="badge badge-info"
+                              style="float: right;">{{event?.evenementType}}</span></div>
+                      <h3 class="card-title mb-3">{{event?.evenementNom}}</h3>
+                      <div class="card-text mb-3" lang="zxx">
+                          <div class="mt-3">
+                              <div class="col-md-12">Début : {{event?.evenementDateDebut}} </div>
+                              <div class="col-md-12 mt-4">Fin : {{event?.evenementDateFin}} </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
           </div>
-        </div>
+      </div>
       </div>
       <div class="col-md-12 mt-4" style="float: right;">
         <ul class="nav nav-tabs">
-          <li class="nav-item" *ngIf="event.evenementType == 'Groupe';else indiv"><a class="nav-link active" href="#groupe"
+          <li class="nav-item"><a class="nav-link active" href="#critere" data-toggle="tab">Critères</a></li>
+          <li class="nav-item"><a class="nav-link" href="#jury" data-toggle="tab">Jurys</a></li>
+          <li class="nav-item" *ngIf="event.evenementType == 'Groupe';else indiv"><a class="nav-link" href="#groupe"
               data-toggle="tab">groupes</a></li>
           <ng-template #indiv>
-            <li class="nav-item"><a class="nav-link active" href="#candidat" data-toggle="tab">Candidats</a></li>
+            <li class="nav-item"><a class="nav-link" href="#candidat" data-toggle="tab">Candidats</a></li>
           </ng-template>
-          <li class="nav-item"><a class="nav-link " href="#critere" data-toggle="tab">Critères</a></li>
-          <li class="nav-item"><a class="nav-link" href="#jury" data-toggle="tab">Jurys</a></li>
-
           <li class="nav-item" *ngIf="event.evenementType == 'Groupe';else individ"><a class="nav-link"
               href="#resultGroupe" data-toggle="tab">Résultat</a></li>
           <ng-template #individ>
@@ -43,7 +42,7 @@
 
         </ul>
         <div class="tab-content">
-          <div class="tab-pane" id="critere">
+          <div class="tab-pane active" id="critere">
             <div class="container-fluid">
               <h1>Nos Critères</h1>
             </div>
@@ -165,7 +164,7 @@
               <!-- fin modal -->
             </div>
           </div>
-          <div class="tab-pane active" id="groupe">
+          <div class="tab-pane" id="groupe">
             <div class="bg-light pt-5 pb-3">
               <div class="container">
                 <div class="swiper-container">
@@ -234,7 +233,7 @@
             </div>
             <!-- fin modal -->
           </div>
-          <div class="tab-pane active" id="candidat">
+          <div class="tab-pane" id="candidat">
             <div class="bg-light pt-5 pb-3">
               <div class="container">
                 <div class="swiper-container">

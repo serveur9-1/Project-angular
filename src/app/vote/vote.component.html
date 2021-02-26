@@ -139,35 +139,18 @@
                         <span class="sr-only">Close confirmation modal</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <div class="col-12 col-md-12">
-                        <table id="myTable" class="table tablesorter table-responsive">
-                            <thead class="cf">
-                                <tr>
-                                    <th class="header col-4" scope="col" width=50%>Libéllé</th>
-                                    <th class="header col-4" scope="col" width=50%>Barème</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let critere of criteres; let i = index">
-                                    <td class="align-middle" width=50%>{{critere.critereLibelle}}</td>
-                                    <td class="align-middle" width=50% *ngIf="critere.critereId">
-                                        <form (ngSubmit)="onSubmitNote(critere.critereId, critere.critereBareme,currentRate[i])" [formGroup]="noteForm">
-                                            <ngb-rating formControlName="note" [readonly]="false"
-                                                *ngIf="critere.critereId" [(rate)]="currentRate[i]" value="5" [max]="5">
-                                                <ng-template let-fill="fill" let-index="index">
-                                                    <span class="star" [class.filled]="fill === 100">&#9733;</span>
-                                                </ng-template>
-                                            </ngb-rating>
-                                        </form>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
 
                 <form (submit)="onSubmitComment()" [formGroup]="commentForm">
+                    <div *ngFor="let critere of criteres; let i = index">
+                        <span>{{critere.critereLibelle}}</span>
+                        <ngb-rating formControlName="note" [readonly]="false" *ngIf="critere.critereId"
+                            [(rate)]="currentRate[i]" (rateChange)="notation(critere.critereId, critere.critereBareme ,currentRate[i])"  value="5" [max]="5">
+                            <ng-template let-fill="fill" let-index="index">
+                                <span class="star" [class.filled]="fill === 100">&#9733;</span>
+                            </ng-template>
+                        </ngb-rating>
+                    </div>
+
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1">Laisser un commentaire</label>
                         <textarea class="form-control" formControlName="commentaire" id="exampleFormControlTextarea1"
@@ -175,7 +158,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="reset" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                        <button type="submit" class="btn btn-primary">Commenter</button>
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
                     </div>
                 </form>
             </div>

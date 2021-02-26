@@ -37,6 +37,21 @@ export class VoteComponent implements OnInit {
   groupeId!: number;
   critereId!: number;
   candidatId!: number;
+  noter: {
+    note: number,
+    jury: Jury,
+    candidat: Candidats,
+    critere: Criteres,
+    evenement : Evenement,
+  } [] = [];
+  noterG: {
+    note: number,
+    jury: Jury,
+    groupes: Groupes,
+    critere: Criteres,
+    evenement : Evenement,
+  } [] = [];
+  commentaireLibelle! : String;
   currentRate: any[] = [];
 
   constructor(private votesGroupeOrCandidatControllerService: VotesGroupeOrCandidatControllerService, private HttpClient: HttpClient, private commentCandidatOrGroupeService: CommentCandidatOrGroupeControllerService, private groupeService: GroupeControllerService, private candidatService: CandidatControllerService, private critereService: CritereControllerService, private juryService: JuryControllerService, private toastr: ToastrService, private eventService: EvenementControllerService, private router: ActivatedRoute, private fb: FormBuilder) { }
@@ -175,10 +190,9 @@ export class VoteComponent implements OnInit {
 
   commentForm1() {
     this.juryId = parseInt(this.router.snapshot.params.id);
-    if (this.juryId && this.candidId && this.events.evenementId) {
+    if (this.juryId && (this.candidId || this.groupeId) && this.events.evenementId ) {
 
       if (this.type == "Groupe") {
-
         this.HttpClient.get<Comment_groupe>("http://127.0.0.1:8080/comment_groupe/" + this.events.evenementId + "/" + this.juryId + "/" + this.groupeId).subscribe(
           data => this.commentForm = this.fb.group({
             commentaireGroupeId: data.commentaireGroupeId,
@@ -283,25 +297,81 @@ export class VoteComponent implements OnInit {
     this.noteForm1();
 
   }
+  notation(id : number ,bareme : any, note : number){
+    console.log('valeur',id,bareme,note);
+    if (this.type == "Groupe") {
+      this.noterG.push({
+        note:(note*bareme)/5,
+        critere : {
+          critereId : id,
+        },
+        jury : {
+          juryId :this.juryId
+        },
+        groupes:{
+          groupeId : this.groupeId
+        },
+        evenement : {
+          evenementId : this.events.evenementId,
+        }
+      })
+    } else {
+      if (note) {
+        this.noter.push({
+          note:(note*bareme)/5,
+          critere : {
+            critereId : id,
+          },
+          jury : {
+            juryId :this.juryId
+          },
+          candidat:{
+            candidatId : this.candidId
+          },
+          evenement : {
+            evenementId : this.events.evenementId,
+          }
+        })
+      }
+      
+    }
+    
+    
+  }
 
  
 
   onSubmitComment() {
+
+    console.log('tester',this.noterG , this.commentForm.value);
     
     if (!this.commentForm.valid) {
       this.toastr.error("Veuillez commenter");
     } else {
       if (this.events.evenementType == "Groupe") {
-        this.commentCandidatOrGroupeService.createOrUpdateCommentGroupeUsingPOST({
-          ...this.commentForm.value,
-          evenement: { evenementId: this.events.evenementId },
-          groupes: { groupeId: this.groupId },
-          jury: { juryId: this.juryId }
-        })
-          .subscribe(
-            data => this.toastr.success("Commentaire enregistré avec succès"),
-            error => this.toastr.error(error.message)
-          );
+        // this.commentCandidatOrGroupeService.createOrUpdateCommentGroupeUsingPOST({
+        //   ...this.commentForm.value.commentaire,
+        //   evenement: { evenementId: this.events.evenementId },
+        //   groupes: { groupeId: this.groupeId },
+        //   jury: { juryId: this.juryId }
+        // })
+        //   .subscribe(
+        //     data => console.log(data),
+        //     error => console.error(error)
+        //   );
+
+        //   this.noterG.forEach(element => {
+
+        //     this.votesGroupeOrCandidatControllerService.createOrUpdateVoteGroupeUsingPOST(element).subscribe(
+        //       data => {
+        //         console.log(data);
+                  
+        //       },
+        //       error => console.error(error)
+        //     )
+        //   });
+        console.log('object',this.noterG);
+
       } else {
         this.commentCandidatOrGroupeService.createOrUpdateCommentCandidatUsingPOST({
           ...this.commentForm.value,
@@ -310,48 +380,24 @@ export class VoteComponent implements OnInit {
           jury: { juryId: this.juryId }
         })
           .subscribe(
-            data => this.toastr.success("Commentaire enregistré avec succès"),
-            error => this.toastr.error(error.message)
+            data => console.error(data),
+            error => console.error(error)
           );
+
+          this.noter.forEach(element => {
+
+            this.votesGroupeOrCandidatControllerService.createOrUpdateVoteCandidatUsingPOST(element).subscribe(
+              data => {
+                console.log(data);
+                  
+              },
+              error => console.error(error)
+            )
+          });
+
       }
 
     }
   }
-
-
-  onSubmitNote(critereId: number, critereBareme: any, note: number) {
-    this.critereId = critereId;
-
-    note = (note * critereBareme) / 5;
-    console.log(this.noteForm.value);
-    if (this.events.evenementType == "Groupe") {
-      this.commentCandidatOrGroupeService.createOrUpdateCommentGroupeUsingPOST({
-        ...this.noteForm.value,
-        note: note,
-        critereId: critereId,
-      })
-        .subscribe(
-          data => this.toastr.success("Commentaire enregistré avec succès"),
-          error => this.toastr.error(error.message)
-        );
-    } else {
-      this.votesGroupeOrCandidatControllerService.createOrUpdateVoteCandidatUsingPOST({
-        ...this.noteForm.value,
-        note: note,
-        critere: { critereId: critereId },
-        candidat: { candidatId: this.candidId },
-        evenement: { evenementId: this.events.evenementId },
-        jury: { juryId: this.juryId }
-
-      }).subscribe(
-        data => this.toastr.success("vote enregistré avec succès"),
-        error => this.toastr.error(error.message)
-      );
-    }
-
-
-  }
-
-
 
 }
