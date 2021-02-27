@@ -27,7 +27,7 @@ class VotesGroupeOrCandidatControllerService extends __BaseService {
   static readonly deleteCandidatUsingDELETEPath = '/vote_candidat/{voteCandidatID}';
   static readonly getAllVoteCandidatsUsingGETPath = '/vote_candidats';
   static readonly createOrUpdateVoteGroupeUsingPOSTPath = '/vote_groupe';
-  static readonly getNotegroupeByAllInfoUsingGETPath = '/vote_groupe/{evenementId}/{juryId}/{groupeId}/{critereId}';
+  static readonly getNoteGroupeByAllInfoUsingGETPath = '/vote_groupe/{evenementId}/{juryId}/{groupeId}/{critereId}';
   static readonly getVoteGroupeByIdUsingGETPath = '/vote_groupe/{voteGroupeID}';
   static readonly deleteGroupeUsingDELETEPath = '/vote_groupe/{voteGroupeID}';
   static readonly getAllVoteGroupesUsingGETPath = '/vote_groupes';
@@ -362,8 +362,8 @@ class VotesGroupeOrCandidatControllerService extends __BaseService {
   }
 
   /**
-   * getNotegroupeByAllInfo
-   * @param params The `VotesGroupeOrCandidatControllerService.GetNotegroupeByAllInfoUsingGETParams` containing the following parameters:
+   * getNoteGroupeByAllInfo
+   * @param params The `VotesGroupeOrCandidatControllerService.GetNoteGroupeByAllInfoUsingGETParams` containing the following parameters:
    *
    * - `juryId`: juryId
    *
@@ -375,7 +375,7 @@ class VotesGroupeOrCandidatControllerService extends __BaseService {
    *
    * @return OK
    */
-  getNotegroupeByAllInfoUsingGETResponse(params: VotesGroupeOrCandidatControllerService.GetNotegroupeByAllInfoUsingGETParams): __Observable<__StrictHttpResponse<Vote_groupes>> {
+  getNoteGroupeByAllInfoUsingGETResponse(params: VotesGroupeOrCandidatControllerService.GetNoteGroupeByAllInfoUsingGETParams): __Observable<__StrictHttpResponse<Vote_groupes>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -401,8 +401,8 @@ class VotesGroupeOrCandidatControllerService extends __BaseService {
     );
   }
   /**
-   * getNotegroupeByAllInfo
-   * @param params The `VotesGroupeOrCandidatControllerService.GetNotegroupeByAllInfoUsingGETParams` containing the following parameters:
+   * getNoteGroupeByAllInfo
+   * @param params The `VotesGroupeOrCandidatControllerService.GetNoteGroupeByAllInfoUsingGETParams` containing the following parameters:
    *
    * - `juryId`: juryId
    *
@@ -414,8 +414,8 @@ class VotesGroupeOrCandidatControllerService extends __BaseService {
    *
    * @return OK
    */
-  getNotegroupeByAllInfoUsingGET(params: VotesGroupeOrCandidatControllerService.GetNotegroupeByAllInfoUsingGETParams): __Observable<Vote_groupes> {
-    return this.getNotegroupeByAllInfoUsingGETResponse(params).pipe(
+  getNoteGroupeByAllInfoUsingGET(params: VotesGroupeOrCandidatControllerService.GetNoteGroupeByAllInfoUsingGETParams): __Observable<Vote_groupes> {
+    return this.getNoteGroupeByAllInfoUsingGETResponse(params).pipe(
       __map(_r => _r.body as Vote_groupes)
     );
   }
@@ -561,9 +561,9 @@ module VotesGroupeOrCandidatControllerService {
   }
 
   /**
-   * Parameters for getNotegroupeByAllInfoUsingGET
+   * Parameters for getNoteGroupeByAllInfoUsingGET
    */
-  export interface GetNotegroupeByAllInfoUsingGETParams {
+  export interface GetNoteGroupeByAllInfoUsingGETParams {
 
     /**
      * juryId

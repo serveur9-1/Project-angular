@@ -35,7 +35,7 @@ export class AddEventComponent implements OnInit {
     this.evenId = this.router.snapshot.params.id;
     if (this.evenId) {
       this.eventService.getEvenementByIdUsingGET(this.evenId).subscribe(
-        data => this.eventForm.patchValue(data),
+        data => {this.eventForm.patchValue(data);},
         error => console.log(error)
       )
     }

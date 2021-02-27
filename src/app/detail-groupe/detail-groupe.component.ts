@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Groupes } from '../api/models';
 import { CandidatControllerService, GroupeCandidatControllerService, GroupeControllerService } from '../api/services';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-detail-groupe',
@@ -20,16 +21,37 @@ export class DetailGroupeComponent implements OnInit {
   candidatId!: number;
   allCandid: Candidats[] = [];
   candidatByGroup: Groupe_candidats[] = [];
-
   addCandGroupForm!: FormGroup;
-  submitted = false;
 
-  constructor(private groupeCandidatService: GroupeCandidatControllerService, private groupeService: GroupeControllerService, private toastr: ToastrService, private fb: FormBuilder, private router: ActivatedRoute, private candidatService: CandidatControllerService) { }
+  candidatForm!: FormGroup;
+  submitted =false;
+  candidId!: number;
+  userFile: any;
+  public imagePath: any;
+  imgURL: any;
+  message: string | undefined;
+  image: any;
+  eventId!: number;
+
+  constructor(private groupeCandidatService: GroupeCandidatControllerService, private groupeService: GroupeControllerService, private toastr: ToastrService, private fb: FormBuilder, private router: ActivatedRoute, private candidatService: CandidatControllerService, private HttpClient: HttpClient) { }
 
   ngOnInit(): void {
     this.reloadData();
     this.groupeCFormInit();
     this.candidatByGroupe();
+    this.candidForm();
+  }
+
+  candidForm(){
+    this.candidatForm = this.fb.group({
+      candidatId : [100000, Validators.required],
+      candidatCode : ["", Validators.required],
+      candidatEmail : ["", Validators.required],
+      candidatNom : ["", Validators.required],
+      candidatPhoto : [],
+      candidatTelephone : ["", Validators.required],
+      candidatPrenoms : ["", Validators.required],
+    })
   }
 
   groupeCFormInit() {
@@ -40,7 +62,7 @@ export class DetailGroupeComponent implements OnInit {
   }
 
   reloadData() {
-    this.allCandids();
+    
     this.groupeId = this.router.snapshot.params.id;
     this.groupeService.getEvenementByIdUsingGET1(this.groupeId).subscribe(
       (res) => {
@@ -52,37 +74,73 @@ export class DetailGroupeComponent implements OnInit {
     )
   }
 
-  onSubmit() {
+  addData() {
+    this.eventId = this.router.snapshot.params.id2;
+    this.groupeId = this.router.snapshot.params.id;
+    console.log('mmmmmm',this.eventId,this.groupeId);
+    const formData: any = new FormData();
+    const candidat =  {...this.candidatForm.value, evenement: {evenementId:this.eventId}}
+    delete candidat.candidatPhoto;
+    const myObjStr = JSON.stringify(candidat);
 
+    formData.append('candidat', myObjStr);
+    formData.append('file', this.image);
+    console.log('object',candidat);
 
-    console.log(this.addCandGroupForm.value)
-    if (!this.addCandGroupForm.valid) {
-      this.toastr.error("Veuillez choisir un candidat");
-    } else {
-      this.groupeCandidatService.createOrUpdateGroupeCandidatUsingPOST({ ...this.addCandGroupForm.value, candidat: { candidatId: this.addCandGroupForm.value.candidatId }, groupe: { groupeId: this.groupeId } })
-        .subscribe(
-          data => {
+    this.HttpClient.post<Candidats>("http://127.0.0.1:8080/candidat", formData).subscribe(
+      data => {
+          this.toastr.success("candidat ajouté avec succès");
+          console.log('lololo',data);
+          this.groupeCandidatService.createOrUpdateGroupeCandidatUsingPOST({ ...this.addCandGroupForm.value, candidat: { candidatId: data.candidatId }, groupe: { groupeId: this.groupeId } }).subscribe(
+            data => {console.log(data);
+              this.candidatByGroupe()}
+          )
 
-            this.toastr.success("candidat ajouté avec succès");
-            this.reloadData();
-            this.candidatByGroupe();
-          },
-          error => this.toastr.error(error.message)
-        );
+          this.candidatForm.reset();
+      },
+      error => console.error(error)
+
+    )
+  }
+
+  onSelectFile(event: any) {
+    let blobTest: any;
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      let blob: any;
+      this.image = file;
+      // COnversion en type blob
+      file.arrayBuffer().then((arrayBuffer: any) => {
+        blobTest = arrayBuffer;
+        blob = new Blob([new Uint8Array(blobTest)], { type: file.type });
+        console.log('file blob', blobTest)
+      });
+      this.userFile = file;
+      // this.f['evenementPhoto'].setValue(blobTest);
+      var mimeType = event.target.files[0].type;
+      if (mimeType.match(/image\/*/) == null) {
+        this.message = "cette image n'est pas supportée.";
+        return;
+      }
+      var reader = new FileReader();
+      this.imagePath = file;
+      reader.readAsDataURL(file);
+      reader.onload = (_event) => {
+        this.imgURL = reader.result;
+      };
+
     }
   }
 
-  allCandids() {
+  onSubmit(){
+    if (!this.candidatForm.valid) {
+      this.toastr.error("Veuillez renseigner les champs réquis");
+    } else {
+      this.addData();
+    }
+    }
 
-    this.candidatService.getAllCandidatsUsingGET().subscribe(
-      (res) => {
-        this.allCandid = res;
-      },
-      (error) => {
-        console.error(error)
-      }
-    )
-  }
+
 
   candidatByGroupe() {
     this.groupeId = this.router.snapshot.params.id;

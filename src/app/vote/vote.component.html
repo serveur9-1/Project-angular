@@ -93,18 +93,18 @@
                 <thead class="cf">
                     <tr>
                         <th class="header" scope="col">Rang</th>
-                        <th class="header" scope="col">Nom</th>
-                        <th class="header hide-when-small" scope="col">Code</th>
+                        <th class="header" scope="col">Nom </th>
+                        <th class="header hide-when-small" scope="col">Points</th>
                         <th class="header hide-when-small" scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody *ngIf="type == 'Groupe'">
                     <tr *ngFor="let groupe of groupes; let i = index">
                         <td class="alert alert-danger border-0 mb-0">{{i+1}}</td>
-                        <td class="align-middle">{{groupe.groupeNom}}</td>
-                        <td class="align-middle">{{groupe.groupeCode}}</td>
+                        <td class="align-middle">{{groupe.groupe_nom}}</td>
+                        <td class="align-middle">{{groupe.moyenne}}</td>
                         <td class="align-middle">
-                            <a class="btn btn-primary mr-2" *ngIf="groupe.groupeId" (click)="groupe1(groupe.groupeId)"
+                            <a class="btn btn-primary mr-2" *ngIf="groupe.groupe_id" (click)="groupe1(groupe.groupe_id)"
                                 data-toggle="modal" data-target="#Vote">Noter</a>
                         </td>
                     </tr>
@@ -112,11 +112,11 @@
                 <tbody *ngIf="type == 'Individuel'">
                     <tr *ngFor="let candidat of candidats; let i = index">
                         <td class="align-middle">{{i+1}}</td>
-                        <td class="align-middle">{{candidat.candidatNom}} {{candidat.candidatPrenoms}}</td>
-                        <td class="align-middle">{{candidat.candidatCode}}</td>
+                        <td class="align-middle">{{candidat.candidat_nom}} {{candidat.candidat_prenoms}}</td>
+                        <td class="align-middle">{{candidat.moyenne}}</td>
                         <td class="align-middle">
-                            <a class="btn btn-primary mr-2" *ngIf="candidat.candidatId"
-                                (click)="candidat1(candidat.candidatId)" data-toggle="modal"
+                            <a class="btn btn-primary mr-2" *ngIf="candidat.candidat_id"
+                                (click)="candidat1(candidat.candidat_id)" data-toggle="modal"
                                 data-target="#Vote">Noter</a>
                         </td>
                     </tr>
@@ -142,13 +142,22 @@
 
                 <form (submit)="onSubmitComment()" [formGroup]="commentForm">
                     <div *ngFor="let critere of criteres; let i = index">
-                        <span>{{critere.critereLibelle}}</span>
-                        <ngb-rating formControlName="note" [readonly]="false" *ngIf="critere.critereId"
-                            [(rate)]="currentRate[i]" (rateChange)="notation(critere.critereId, critere.critereBareme ,currentRate[i])"  value="5" [max]="5">
-                            <ng-template let-fill="fill" let-index="index">
-                                <span class="star" [class.filled]="fill === 100">&#9733;</span>
-                            </ng-template>
-                        </ngb-rating>
+                        <div class="alert alert-success col-md-12" role="alert">
+                            <div class="col-md-5">
+                                <h3><span>{{critere.critereLibelle}}</span></h3>
+                            </div>
+                            
+                            <div style="float: right;" class="col-md-6">
+                                <ngb-rating formControlName="note" [readonly]="false" *ngIf="critere.critereId"
+                                    [(rate)]="currentRate[i]"
+                                    (rateChange)="notation(critere.critereId, critere.critereBareme ,currentRate[i])"
+                                    value="5" [max]="5">
+                                    <ng-template let-fill="fill" let-index="index">
+                                        <span class="star" [class.filled]="fill === 100">&#9733;</span>
+                                    </ng-template>
+                                </ngb-rating>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="form-group">

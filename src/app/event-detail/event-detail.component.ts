@@ -23,6 +23,7 @@ export class EventDetailComponent implements OnInit {
   resultGroupes : any = [];
   resultCandidats : any = [];
   groupeId!: number;
+  
   constructor(private voteService : VotesGroupeOrCandidatControllerService,private groupeService : GroupeControllerService,private candidatsService : CandidatControllerService,private critereService : CritereControllerService,private juryService : JuryControllerService,private eventService: EvenementControllerService,private toastr: ToastrService,private router: ActivatedRoute) { }
 
   ngOnInit(): void {

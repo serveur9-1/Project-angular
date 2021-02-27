@@ -185,7 +185,7 @@
                                 class="card-img-top bg-yellow" width="416" height="229" style="object-fit: contain;"
                                 loading="lazy" /></a>
                             <div class="card-body position-static">
-                              <a [routerLink]="['/detailGrp', groupe.groupeId]" style="text-decoration: none;">
+                              <a [routerLink]="['/detailGrp', groupe.groupeId,event.evenementId ]" style="text-decoration: none;">
                                 <div class="card-text mb-2" style="font-size: 25px;font-weight:bold;">
                                   {{groupe.groupeNom}}</div>
                               </a>

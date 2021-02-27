@@ -25,7 +25,7 @@ export class VoteComponent implements OnInit {
   events: any = {};
   criteres: Criteres[] = [];
   groupes: any[] = [];
-  candidats: Candidats[] = [];
+  candidats: any = [];;
   juryId!: number;
   eventId!: number;
   Nbre!: number;
@@ -42,16 +42,16 @@ export class VoteComponent implements OnInit {
     jury: Jury,
     candidat: Candidats,
     critere: Criteres,
-    evenement : Evenement,
-  } [] = [];
+    evenement: Evenement,
+  }[] = [];
   noterG: {
     note: number,
     jury: Jury,
-    groupes: Groupes,
+    groupe: Groupes,
     critere: Criteres,
-    evenement : Evenement,
-  } [] = [];
-  commentaireLibelle! : String;
+    evenement: Evenement,
+  }[] = [];
+  commentaireLibelle!: String;
   currentRate: any[] = [];
 
   constructor(private votesGroupeOrCandidatControllerService: VotesGroupeOrCandidatControllerService, private HttpClient: HttpClient, private commentCandidatOrGroupeService: CommentCandidatOrGroupeControllerService, private groupeService: GroupeControllerService, private candidatService: CandidatControllerService, private critereService: CritereControllerService, private juryService: JuryControllerService, private toastr: ToastrService, private eventService: EvenementControllerService, private router: ActivatedRoute, private fb: FormBuilder) { }
@@ -120,11 +120,11 @@ export class VoteComponent implements OnInit {
     this.eventId = this.events.evenementId;
     this.type = this.events.evenementType;
     if (this.type == "Groupe") {
-      this.groupeService.getGroupeByEventIDUsingGET(this.eventId).subscribe(
+      this.votesGroupeOrCandidatControllerService.getResultgroupByEventUsingGET(this.eventId).subscribe(
 
         (res) => {
           this.groupes = res;
-          console.log('groupe', this.groupes)
+          console.log(res);
         },
         (error) => {
           console.error(error)
@@ -132,21 +132,23 @@ export class VoteComponent implements OnInit {
 
       )
     } else {
-      this.candidatService.getCandidatByEventIdUsingGET(this.eventId).subscribe(
+
+      this.votesGroupeOrCandidatControllerService.getResultatUsingGET(this.eventId).subscribe(
 
         (res) => {
           this.candidats = res;
-          console.log('candidat', this.candidats)
+          console.log(res);
         },
         (error) => {
           console.error(error)
         }
-
       )
     }
 
 
   }
+
+
 
   candidat1(candidId: number) {
     this.candidId = candidId;
@@ -190,7 +192,7 @@ export class VoteComponent implements OnInit {
 
   commentForm1() {
     this.juryId = parseInt(this.router.snapshot.params.id);
-    if (this.juryId && (this.candidId || this.groupeId) && this.events.evenementId ) {
+    if (this.juryId && (this.candidId || this.groupeId) && this.events.evenementId) {
 
       if (this.type == "Groupe") {
         this.HttpClient.get<Comment_groupe>("http://127.0.0.1:8080/comment_groupe/" + this.events.evenementId + "/" + this.juryId + "/" + this.groupeId).subscribe(
@@ -231,7 +233,7 @@ export class VoteComponent implements OnInit {
       this.noteForm = this.fb.group({
         voteGroupeId: [100000],
         note: ["", Validators.required],
-        groupeId: this.groupId,
+        groupeId: this.groupeId,
         juryId: this.juryId,
         evenementId: this.events.evenementId,
         critereId: this.critereId,
@@ -253,7 +255,7 @@ export class VoteComponent implements OnInit {
 
   noteForm1() {
     this.juryId = parseInt(this.router.snapshot.params.id);
-    console.log('tester',this.juryId, this.candidId, this.events.evenementId, this.critereId);
+    console.log('tester', this.juryId, this.candidId, this.events.evenementId, this.critereId);
     if (this.juryId, this.candidId, this.events.evenementId, this.critereId) {
 
       if (this.type == "Groupe") {
@@ -273,15 +275,15 @@ export class VoteComponent implements OnInit {
       } else {
 
         this.HttpClient.get<Vote_candidats>("http://127.0.0.1:8080/vote_candidat/" + this.events.evenementId + "/" + this.juryId + "/" + this.candidId + "/" + this.critereId).subscribe(
-          data => 
-          this.noteForm = this.fb.group({
-            voteCandidatId: data.voteCandidatId,
-            note: data.note,
-            candidatId: data.candidat?.candidatId,
-            juryId: data.jury?.juryId,
-            evenementId: data.evenement?.evenementId,
-            critereId: data.critere?.critereId,
-          }),
+          data =>
+            this.noteForm = this.fb.group({
+              voteCandidatId: data.voteCandidatId,
+              note: data.note,
+              candidatId: data.candidat?.candidatId,
+              juryId: data.jury?.juryId,
+              evenementId: data.evenement?.evenementId,
+              critereId: data.critere?.critereId,
+            }),
           error => console.log(error)
         )
       }
@@ -297,107 +299,153 @@ export class VoteComponent implements OnInit {
     this.noteForm1();
 
   }
-  notation(id : number ,bareme : any, note : number){
-    console.log('valeur',id,bareme,note);
+  notation(id: number, bareme: any, note: number) {
+    console.log('valeur', id, bareme, note);
     if (this.type == "Groupe") {
-      this.noterG.push({
-        note:(note*bareme)/5,
-        critere : {
-          critereId : id,
-        },
-        jury : {
-          juryId :this.juryId
-        },
-        groupes:{
-          groupeId : this.groupeId
-        },
-        evenement : {
-          evenementId : this.events.evenementId,
-        }
-      })
-    } else {
-      if (note) {
-        this.noter.push({
-          note:(note*bareme)/5,
-          critere : {
-            critereId : id,
+      if (note){
+        this.noterG.push({
+          note: (note * bareme) / 5,
+          critere: {
+            critereId: id,
           },
-          jury : {
-            juryId :this.juryId
+          jury: {
+            juryId: this.juryId
           },
-          candidat:{
-            candidatId : this.candidId
+          groupe: {
+            groupeId: this.groupeId
           },
-          evenement : {
-            evenementId : this.events.evenementId,
+          evenement: {
+            evenementId: this.events.evenementId,
           }
         })
       }
-      
-    }
-    
-    
-  }
-
- 
-
-  onSubmitComment() {
-
-    console.log('tester',this.noterG , this.commentForm.value);
-    
-    if (!this.commentForm.valid) {
-      this.toastr.error("Veuillez commenter");
+     
     } else {
-      if (this.events.evenementType == "Groupe") {
-        // this.commentCandidatOrGroupeService.createOrUpdateCommentGroupeUsingPOST({
-        //   ...this.commentForm.value.commentaire,
-        //   evenement: { evenementId: this.events.evenementId },
-        //   groupes: { groupeId: this.groupeId },
-        //   jury: { juryId: this.juryId }
-        // })
-        //   .subscribe(
-        //     data => console.log(data),
-        //     error => console.error(error)
-        //   );
-
-        //   this.noterG.forEach(element => {
-
-        //     this.votesGroupeOrCandidatControllerService.createOrUpdateVoteGroupeUsingPOST(element).subscribe(
-        //       data => {
-        //         console.log(data);
-                  
-        //       },
-        //       error => console.error(error)
-        //     )
-        //   });
-        console.log('object',this.noterG);
-
-      } else {
-        this.commentCandidatOrGroupeService.createOrUpdateCommentCandidatUsingPOST({
-          ...this.commentForm.value,
-          evenement: { evenementId: this.events.evenementId },
-          candidats: { candidatId: this.candidId },
-          jury: { juryId: this.juryId }
+      if (note) {
+        this.noter.push({
+          note: (note * bareme) / 5,
+          critere: {
+            critereId: id,
+          },
+          jury: {
+            juryId: this.juryId
+          },
+          candidat: {
+            candidatId: this.candidId
+          },
+          evenement: {
+            evenementId: this.events.evenementId,
+          }
         })
-          .subscribe(
-            data => console.error(data),
-            error => console.error(error)
-          );
-
-          this.noter.forEach(element => {
-
-            this.votesGroupeOrCandidatControllerService.createOrUpdateVoteCandidatUsingPOST(element).subscribe(
-              data => {
-                console.log(data);
-                  
-              },
-              error => console.error(error)
-            )
-          });
-
       }
 
     }
+
+
+  }
+
+
+
+  onSubmitComment() {
+
+    this.eventId = this.events.evenementId;
+    this.type = this.events.evenementType;
+
+
+    if (this.events.evenementType == "Groupe") {
+      this.commentCandidatOrGroupeService.createOrUpdateCommentGroupeUsingPOST({
+        ...this.commentForm.value,
+        evenement: { evenementId: this.events.evenementId },
+        groupes: { groupeId: this.groupeId },
+        jury: { juryId: this.juryId }
+      })
+        .subscribe(
+          data => console.log(data),
+          error => console.error(error)
+        );
+
+      this.noterG.forEach((element) => {
+        this.HttpClient.get<Vote_groupes>("http://127.0.0.1:8080/vote_groupe/" + this.events.evenementId + "/" + this.juryId + "/" + this.groupeId + "/" +
+          element.critere.critereId).subscribe(
+            data => {
+              if (data) {
+                this.votesGroupeOrCandidatControllerService.createOrUpdateVoteGroupeUsingPOST({ ...element, voteGroupeId: data.voteGroupeId }).subscribe(
+                  data => {
+                    console.log(data);
+                    this.eventData();
+
+                  },
+                  error => console.error(error))
+              } else {
+                this.votesGroupeOrCandidatControllerService.createOrUpdateVoteGroupeUsingPOST(element).subscribe(
+                  data => {
+                    console.log(data);
+                    this.eventData();
+
+                  },
+                  error => console.error(error))
+
+
+              }
+
+            },
+            error => console.log(error)
+          )
+
+      });
+      this.noterG.splice(0, this.noterG.length);
+      this.toastr.success('vote enregistré avec succès');
+      this.candidatevent();
+
+    } else {
+
+      this.commentCandidatOrGroupeService.createOrUpdateCommentCandidatUsingPOST({
+        ...this.commentForm.value,
+        evenement: { evenementId: this.events.evenementId },
+        candidats: { candidatId: this.candidId },
+        jury: { juryId: this.juryId }
+      })
+        .subscribe(
+          data => console.error(data),
+          error => console.error(error)
+        );
+
+      this.noter.forEach((element, index) => {
+        this.HttpClient.get<Vote_candidats>("http://127.0.0.1:8080/vote_candidat/" + this.events.evenementId + "/" + this.juryId + "/" + this.candidId + "/" +
+          element.critere.critereId).subscribe(
+            data => {
+              if (data) {
+                this.votesGroupeOrCandidatControllerService.createOrUpdateVoteCandidatUsingPOST({ ...element, voteCandidatId: data.voteCandidatId }).subscribe(
+                  data => {
+                    console.log(data);
+                    this.eventData();
+
+                  },
+                  error => console.error(error))
+              } else {
+                this.votesGroupeOrCandidatControllerService.createOrUpdateVoteCandidatUsingPOST(element).subscribe(
+                  data => {
+                    console.log(data);
+                    this.eventData();
+
+                  },
+                  error => console.error(error))
+
+
+              }
+
+            },
+            error => console.log(error)
+          )
+
+      });
+      this.noter.splice(0, this.noter.length);
+      this.toastr.success('vote enregistré avec succès');
+
+
+    }
+
+
   }
 
 }

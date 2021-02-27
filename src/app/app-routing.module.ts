@@ -33,7 +33,7 @@ const routes: Routes = [
   { path: 'addCritere', component: AddCritereComponent },
   { path: 'editJury/:id', component: AddJuryComponent },
   { path: 'editCritere/:id', component: AddCritereComponent },
-  { path: 'detailGrp/:id', component: DetailGroupeComponent },
+  { path: 'detailGrp/:id/:id2', component: DetailGroupeComponent },
   { path: 'login', component : LoginComponent },
   { path: 'vote/:id', component : VoteComponent },
   { path: 'detailEvent/:id', component : EventDetailComponent },
